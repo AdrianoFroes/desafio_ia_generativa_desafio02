@@ -1,0 +1,15 @@
+{
+  "teste": "normal",
+  "entrada": "Gostaria de saber como está minha solicitação de manutenção predial e qual é o prazo de conclusão.",
+  "resultado": {
+    "protocolo": "2026/001234",
+    "situacao": "Encaminhado para análise do setor responsável",
+    "prazo": "não localizado",
+    "minuta": "Prezado(a) João Silva, informamos que a sua solicitação sob o protocolo 2026/001234, registrada em 12/06/2026 referente a Manutenção predial, encontra-se na seguinte situação: Encaminhado para análise do setor responsável. O prazo de conclusão está: não localizado.",
+    "revisao_humana": true
+  },
+  "validacao_automatica": {
+    "aprovado": true,
+    "observacao": "Validações automáticas básicas aprovadas."
+  }
+}
