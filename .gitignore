@@ -1,0 +1,19 @@
+# Credenciais
+.env
+.env.*
+!.env.example
+# Ambientes e caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+# Editor e sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# Logs e arquivos temporários
+*.log
+*.tmp
