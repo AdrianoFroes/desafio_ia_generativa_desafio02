@@ -1,1 +1,3 @@
-# Dependências serão adicionadas conforme a implementação e testes de compatibilidade.
+﻿openai==3.33.0
+python-dotenv==1.2.4
+requests==2.34.2

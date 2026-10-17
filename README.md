@@ -27,19 +27,55 @@ As ferramentas e bibliotecas serão definidas conforme o desenvolvimento do proj
 - `testes/` — testes do projeto.
 - `documentacao/` — enunciado e documentação do desafio.
 
-## Como executar
+## Como instalar e executar
 
-Com o Python instalado, abra o terminal na pasta do projeto e execute:
+Para executar o projeto, é necessário ter o Python 3.12 instalado.
+
+**1. Criar o ambiente virtual**
+
+No PowerShell, dentro da pasta do projeto:
+
+```powershell
+py -3.12 -m venv .venv
+```
+
+**2. Ativar o ambiente virtual**
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+**3. Instalar as bibliotecas**
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+**4. Configurar o projeto**
+
+O arquivo `config.json` contém as configurações iniciais do sistema, como o modelo de IA e os caminhos das pastas.
+
+O arquivo `.env.example` mostra as variáveis utilizadas para as chaves das APIs. Quando necessário, deve ser criada uma cópia chamada `.env`, preenchida com as credenciais correspondentes.
+
+As chaves não devem ser colocadas diretamente no código nem enviadas ao GitHub.
+
+**5. Executar o programa**
 
 ```powershell
 python -m src.main
 ```
 
+O programa mostra as configurações carregadas, verifica as pastas e apresenta as versões do Python e das bibliotecas.
+
+A inicialização pode ser testada sem uma chave de API.
+
 ## Andamento
 
-O projeto está em fase inicial. Até o momento, foi criada a estrutura de pastas e arquivos conforme a orientação do desafio.
+A estrutura inicial do projeto foi criada.
 
-As funcionalidades serão desenvolvidas e testadas ao longo da atividade.
+O RF01 está em desenvolvimento. A leitura das configurações, a verificação das pastas e a identificação das versões já foram implementadas e testadas.
+
+As demais funcionalidades serão desenvolvidas ao longo do desafio.
 
 ## Curso
 
