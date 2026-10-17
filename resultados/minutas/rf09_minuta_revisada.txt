@@ -1,0 +1,24 @@
+MINUTA — REVISÃO HUMANA APROVADA
+
+Assunto: Efetivação de matrícula e documentos pendentes
+Protocolo: 2026-000142
+Data: 14/10/2026
+
+Prezado(a),
+
+Acusamos o recebimento de sua solicitação referente à efetivação de matrícula no curso Técnico em Enfermagem (noturno) e ao levantamento de documentos a serem apresentados.
+
+A relação de eventuais documentos pendentes e a situação da matrícula deverão ser verificadas pelo setor responsável, antes da prestação de orientações definitivas ao solicitante.
+
+Atenciosamente,
+[Setor responsável — identificação pendente]
+
+FONTES UTILIZADAS:
+- dados/originais/entrada_texto.txt
+- dados/processados/rf05_extracao.json
+
+PENDÊNCIAS DE CONFERÊNCIA:
+- Relação de documentos pendentes (informação não localizada).
+- Verificação do status de efetivação da matrícula pelo setor responsável.
+
+STATUS: RASCUNHO — NÃO ENVIADO

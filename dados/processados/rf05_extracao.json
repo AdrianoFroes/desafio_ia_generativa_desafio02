@@ -1,0 +1,16 @@
+{
+  "protocolo": "2026-000142",
+  "data": "14/10/2026",
+  "solicitante": "Marcos Vinícius de Almeida Santos",
+  "canal": "E-mail",
+  "assunto": "Efetivação de matrícula e documentos pendentes",
+  "pedido": "Efetivação da matrícula no curso Técnico em Enfermagem (noturno) e informação sobre quais documentos ainda precisam ser apresentados",
+  "categoria": "matrícula",
+  "confianca": "alta",
+  "documentos_pendentes": "não localizado",
+  "campos_ausentes": [
+    "documentos_pendentes"
+  ],
+  "revisao_humana": true,
+  "texto_original": "Canal: E-mail\nProtocolo: 2026-000142\nData: 14/10/2026\n\nPrezados,\n\nMeu nome é Marcos Vinícius de Almeida Santos, nasci em 12/08/2008, em Cuiabá, e solicito a efetivação da minha matrícula no curso Técnico em Enfermagem, eixo tecnológico Saúde, com carga horária de 1200 horas, turno noturno. O curso tem início em 01/02/2027 e a data da matrícula é 14/10/2026.\n\nMeus demais dados são: CPF 123.456.789-00; RG 1234567-8; nome da mãe, Lúcia Helena de Almeida Santos; e-mail marcos.almeida.teste@examplo.com.\n\nDeclaro estar ciente de que a matrícula será automaticamente cancelada se eu faltar, sem justificativa comprovada, nos dois primeiros dias de aula consecutivos ou em três dias de aula, consecutivos ou não, nos dez primeiros dias de aula.\n\nPeço que me informem quais documentos ainda preciso apresentar.\n\nAtenciosamente,\nMarcos Vinícius de Almeida Santos\n"
+}

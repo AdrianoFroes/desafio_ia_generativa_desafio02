@@ -1,0 +1,20 @@
+{
+  "requisito": "RF09",
+  "modelo": "gemini-3.8-flash",
+  "provedor": "gemini",
+  "tempo_segundos": 3.38,
+  "tokens_total": 836,
+  "fontes": [
+    "dados/originais/entrada_texto.txt",
+    "dados/processados/rf05_extracao.json"
+  ],
+  "revisao_humana_pendente": false,
+  "aprovado": true,
+  "enviado": false,
+  "revisao_humana_realizada": true,
+  "data_revisao": "2026-10-16T23:51:46-04:00",
+  "tipo_aprovacao": "aprovado_com_ajuste",
+  "arquivo_original": "rf09_minuta.txt",
+  "arquivo_aprovado": "rf09_minuta_revisada.txt",
+  "alteracao_realizada": "Substituída a frase que sugeria compromisso de resposta futura por uma redação que condiciona as orientações à verificação pelo setor responsável."
+}
