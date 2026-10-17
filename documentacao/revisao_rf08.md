@@ -79,3 +79,72 @@ Nesses casos, uma ferramenta de OCR local pode reduzir a exposição dos documen
 A extração por visão multimodal funcionou e foi aprovada na revisão humana.
 
 O envio de informações e a utilização institucional dos dados continuam dependendo das etapas posteriores do projeto.
+
+## Revisão complementar — 17/10/2026
+
+Durante uma nova conferência do documento original, foi identificada
+uma divergência na data da matrícula.
+
+- Data no PDF original: 14/10/2026.
+- Data extraída pelo Gemini: 14/01/2026.
+- Data correta após conferência humana: 14/10/2026.
+
+A extração automática confundiu o mês 10 com o mês 01.
+
+O arquivo rf08_texto_bruto.txt foi preservado como evidência
+da saída original da IA.
+
+O arquivo rf08_texto_corrigido.txt foi atualizado com a data correta.
+
+O arquivo rf08_gabarito.txt também foi atualizado para refletir
+a conferência visual do documento original.
+
+O gabarito inicial foi mantido sem alterações.
+
+### Conclusão atualizada
+
+O RF08 foi executado com sucesso, mas apresentou um erro de OCR
+em um campo crítico: a data da matrícula.
+
+O erro foi identificado em uma conferência humana complementar
+e corrigido na versão revisada.
+
+Portanto, a extração automática não deve ser considerada
+integralmente correta sem revisão humana.
+
+
+## Comparação automática complementar — 17/10/2026
+
+Foi incorporado ao projeto o script src/comparacao_vision.py,
+adaptado a partir da contribuição de Adriano Froes da Costa.
+
+O programa compara a saída original do Gemini com o gabarito
+revisado, sem realizar novas chamadas à API.
+
+### Resultados
+
+- Campos estruturados avaliados: 22.
+- Campos correspondentes: 21.
+- Campos divergentes: 1.
+- Taxa de correspondência dos campos: 95,45%.
+- Similaridade textual completa: 89,68%.
+- Campo divergente: DATA MATRICULA.
+
+O Gemini extraiu 14/01/2026, enquanto a conferência visual
+do PDF original confirmou 14/10/2026.
+
+A similaridade textual considera também informações adicionais
+do gabarito e não representa a taxa de acerto dos campos.
+
+O gabarito final foi revisado após a extração, portanto esta
+comparação não constitui uma avaliação totalmente independente.
+
+O resultado automático permanece sinalizado para revisão humana.
+A divergência identificada foi conferida e corrigida manualmente
+na versão revisada do texto.
+
+Esta avaliação complementar atualiza a conclusão da revisão
+humana inicial, que não havia identificado o erro na data.
+
+O resultado detalhado foi registrado em
+dados/processados/rf08_comparacao.json.

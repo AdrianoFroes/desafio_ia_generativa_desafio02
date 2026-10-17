@@ -1,0 +1,34 @@
+{
+  "correspondencia_exata_normalizada": false,
+  "similaridade": 0.8968,
+  "campos_comparados": 22,
+  "campos_corretos": [
+    "ch",
+    "codigo",
+    "cpf",
+    "curso",
+    "datanascimento",
+    "eixotecnologico",
+    "iniciocurso",
+    "mail",
+    "municipio",
+    "naturalidade",
+    "nome",
+    "nomemae",
+    "nomepai",
+    "orgaoexpedidor",
+    "rg",
+    "telcelular",
+    "telefoneresidencial",
+    "terminocurso",
+    "turma",
+    "turno",
+    "uf"
+  ],
+  "campos_divergentes_ou_ausentes": [
+    "datamatricula"
+  ],
+  "revisao_humana_pendente": true,
+  "arquivo_ocr": "dados/processados/rf08_texto_bruto.txt",
+  "arquivo_gabarito": "dados/gabaritos/rf08_gabarito.txt"
+}
