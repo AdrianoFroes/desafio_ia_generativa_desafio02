@@ -1,0 +1,11 @@
+{
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "voz": "Kore",
+  "arquivo_minuta": "resultados\\minutas\\rf07_minuta_teste.txt",
+  "arquivo_audio": "D:\\Projetos\\desafio_ia_generativa\\resultados\\audios\\rf07_minuta_falada.wav",
+  "aprovacao_humana_declarada": true,
+  "aviso_campos_ausentes": true,
+  "tempo_segundos": 18.27,
+  "tokens_total": 1206,
+  "revisao_audio_pendente": true
+}
