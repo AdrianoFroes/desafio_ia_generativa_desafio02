@@ -4,6 +4,7 @@ import time
 import uuid
 
 from src.audit import registrar_execucao
+from src.privacidade import minimizar_texto
 from src.main import carregar_configuracao
 from pathlib import Path
 from src.llm_client import consultar_llm, ErroLLM
@@ -50,6 +51,7 @@ def preparar_texto(texto):
     if nome != "não localizado":
         texto = re.sub(re.escape(nome), "[solicitante]", texto, flags=re.IGNORECASE)
 
+    texto = minimizar_texto(texto)
     return texto
 
 

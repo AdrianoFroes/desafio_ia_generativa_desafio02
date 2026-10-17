@@ -4,6 +4,7 @@ import uuid
 from pathlib import Path
 
 from src.audit import registrar_execucao
+from src.privacidade import minimizar_campos
 
 from src.llm_client import (
     consultar_llm,
@@ -33,10 +34,7 @@ def preparar_dados(dados):
         "campos_ausentes"
     ]
 
-    return {
-        campo: dados.get(campo, "não localizado")
-        for campo in campos
-    }
+    return minimizar_campos(dados, campos)
 
 
 def gerar_minuta(dados, instrucoes):
