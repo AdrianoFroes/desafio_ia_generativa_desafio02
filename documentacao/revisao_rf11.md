@@ -264,8 +264,8 @@ O RF11 possui implementação funcional de auditoria estruturada, com identifica
 
 A auditoria foi integrada aos fluxos RF02, RF03, RF05, RF06, RF07, RF08 e RF09, com testes automatizados de integração e tratamento de falhas. O RF10 mantém registro próprio de proveniência, ainda não integrado à auditoria central.
 
-Naquela etapa intermediária, a suíte apresentou **100 testes aprovados**. Na verificação final da entrega, a suíte completa apresentou **123 testes aprovados**.
+Naquela etapa intermediária, a suíte apresentou **100 testes aprovados**. Na verificação final anterior, a suíte completa apresentou **123 testes aprovados**; após as correções e os testes adicionais, o pacote revisado apresentou **126 testes aprovados**.
 
 A conclusão definitiva do requisito depende da verificação das limitações remanescentes e da conferência final das evidências exigidas pelo enunciado.
 ## Evidência real acrescentada em 17/10/2026
-O arquivo `resultados/logs/auditoria.jsonl` contém **um registro de execução real** de RF07, vinculado por `id_execucao` aos metadados do áudio final. A revisão humana posterior é preservada em arquivo separado `resultados/audios/rf07_revisao_humana.json`; o evento original corretamente informa `pendente`. Não há histórico central completo das inferências anteriores no pacote. A demonstração offline não substitui esse histórico.
+O arquivo `resultados/logs/auditoria.jsonl` contém **cinco eventos reais**: execução RF07, execução e aprovação humana RF06, execução e aprovação humana RF08. As aprovações RF06/RF08 apontam para os arquivos revisados e seus hashes. O evento original RF07 corretamente informa `pendente` no momento da síntese; a aprovação posterior está no arquivo `resultados/audios/rf07_revisao_humana.json`. O histórico central das inferências anteriores continua incompleto; a demonstração offline não substitui esse histórico.

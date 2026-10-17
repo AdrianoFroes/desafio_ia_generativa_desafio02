@@ -1,4 +1,4 @@
-﻿# RF08 — Visão e OCR
+# RF08 — Visão e OCR
 
 ## Objetivo
 
@@ -148,3 +148,10 @@ humana inicial, que não havia identificado o erro na data.
 
 O resultado detalhado foi registrado em
 dados/processados/rf08_comparacao.json.
+
+
+## Atualização da nova execução e aprovação — 17/10/2026
+
+Antes da nova execução, seis campos foram confirmados visualmente no PDF original e registrados em `dados/gabaritos/rf08_gabarito_validado.json`, com metadados e SHA-256 do documento em `rf08_gabarito_validado_origem.json`. A nova extração bruta está em `dados/processados/rf08_nova_extracao_20261017_161929.txt`. Ela repetiu a divergência da data de matrícula (`14/01/2026` em vez de `14/10/2026`) e apresentou variações no nome e no e-mail; essas correções humanas foram aplicadas na versão `rf08_nova_extracao_20261017_161929_corrigida.txt`, sem sobrescrever a saída bruta.
+
+A pessoa responsável aprovou a versão corrigida às 16h24. O evento de decisão humana em `resultados/logs/auditoria.jsonl` identifica a execução, o arquivo revisado e o SHA-256, que foi conferido no pacote. A aprovação diz respeito à versão corrigida, não significa que o OCR bruto estava integralmente correto. A avaliação retrospectiva anterior permanece preservada e não deve ser apresentada como teste cego.

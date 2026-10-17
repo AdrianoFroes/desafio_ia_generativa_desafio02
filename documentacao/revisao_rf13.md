@@ -230,7 +230,7 @@ Foram executados 12 testes automatizados específicos do RF13, todos aprovados.
 
 
 
-A suíte completa do projeto apresentou 123 testes aprovados.
+A suíte completa do pacote revisado apresentou 126 testes aprovados.
 
 
 

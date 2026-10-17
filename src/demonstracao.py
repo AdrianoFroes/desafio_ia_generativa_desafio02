@@ -11,7 +11,7 @@ ETAPAS = [
     ('Transcrição RF06', 'dados/processados/rf06_transcricao_revisada.txt'),
     ('Síntese de voz RF07 — minuta RF09', 'resultados/audios/rf07_minuta_rf09_aprovada.wav'),
     ('Revisão humana RF07', 'resultados/audios/rf07_revisao_humana.json'),
-    ('Auditoria real RF07', 'resultados/logs/auditoria.jsonl'),
+    ('Auditoria central RF06/RF07/RF08', 'resultados/logs/auditoria.jsonl'),
     ('Documento original RF08', 'dados/originais/entrada_pdf-imagem.pdf'),
     ('OCR e revisão RF08', 'dados/processados/rf08_texto_corrigido.txt'),
     ('Comparação RF08', 'dados/processados/rf08_comparacao.json'),

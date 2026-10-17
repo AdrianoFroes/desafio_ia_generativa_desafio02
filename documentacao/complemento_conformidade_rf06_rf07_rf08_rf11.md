@@ -1,16 +1,43 @@
 # Complemento de conformidade — RF06, RF07, RF08 e RF11
 
-## RF06 — Referência de transcrição
-O arquivo `dados/gabaritos/rf06_referencia_posterior.txt` foi criado **depois** da inferência, a partir da transcrição revisada. Não constitui gabarito independente; compará-lo à transcrição revisada é circular. A documentação anterior relata revisão por escuta, mas não permite demonstrar que existia referência anterior à execução. Para resolver plenamente, ouvir o MP3 original e produzir uma referência humana independente, identificando a data e o responsável, sem alegar criação anterior.
+Atualização baseada nas evidências disponíveis em 17/10/2026. Este documento diferencia execução real, decisão humana posterior e limitações históricas.
 
-## RF07 — Minuta aprovada
-A síntese de ensaio permanece preservada. O comando `python -m src.sintese_voz resultados/minutas/rf09_minuta_revisada.txt --aprovado --final-rf09` utiliza o texto revisado RF09 e gera arquivos separados. Só executar após confirmar a aprovação da minuta e a disponibilidade de créditos da API. A saída mantém revisão por escuta pendente, mesmo que o modelo conclua a geração. Registrar manualmente a escuta, a data e a decisão, sem marcar aprovação antecipadamente.
+## RF06 — Transcrição
 
-## RF08 — Avaliação do OCR
-O gabarito final foi ajustado depois do OCR; a divergência da data de matrícula foi registrada. O resultado é uma avaliação retrospectiva e não um teste cego. Preservar o gabarito inicial, o texto bruto e a correção humana.
+A nova transcrição está em `dados/processados/rf06_nova_transcricao_20261017_160731.txt`, com metadados em arquivo adjacente. A referência em `dados/gabaritos/rf06_gabarito_validado.txt` foi conferida por escuta humana do áudio original e validada antes da nova execução. A nova transcrição foi aprovada em 17/10/2026 às 16h09; o evento de decisão humana está vinculado à execução e ao SHA-256 do arquivo revisado no log central.
+
+**Limitação preservada:** a referência foi derivada de uma transcrição anterior, ainda que conferida por escuta. Por isso, não é um gabarito independente da primeira inferência. A nova comparação é útil, mas não deve ser descrita como avaliação totalmente cega.
+
+## RF07 — Síntese de voz
+
+O áudio definitivo `resultados/audios/rf07_minuta_rf09_aprovada.wav` foi gerado a partir de `resultados/minutas/rf09_minuta_revisada.txt` e aprovado por escuta humana em 17/10/2026 às 15h23. O hash da minuta registrada nos metadados coincide com o conteúdo do arquivo incluído no pacote. O valor `revisao_audio_pendente` nos metadados de geração representa o estado no momento da geração; a aprovação posterior está registrada separadamente e o valor histórico não foi alterado.
+
+## RF08 — Visão e OCR
+
+Os seis campos do gabarito validado (`codigo_matricula`, `data_nascimento`, `cpf`, `rg`, `data_matricula` e `inicio_curso`) foram confirmados visualmente pelo usuário no PDF original antes da nova execução. O texto bruto está preservado em `dados/processados/rf08_nova_extracao_20261017_161929.txt`; a versão corrigida está em `dados/processados/rf08_nova_extracao_20261017_161929_corrigida.txt`. A versão corrigida foi aprovada em 17/10/2026 às 16h24, e o SHA-256 confere com o evento de decisão humana no log central.
+
+**Limitação preservada:** a aprovação humana da versão corrigida não transforma correções posteriores em acertos originais do OCR. A avaliação da primeira execução permanece retrospectiva; os resultados e gabaritos anteriores foram mantidos.
 
 ## RF11 — Auditoria
-O módulo de auditoria registra eventos de execuções futuras. O histórico das inferências antigas não pode ser criado retroativamente como log original. `demonstracao_offline.jsonl` comprova apenas conferência offline. Caso exista `auditoria.jsonl` original no computador, verificar integridade e confidencialidade antes de incluí-lo no pacote. A ausência de histórico completo permanece uma limitação do protótipo.
 
-## Atualização factual — 17/10/2026 (posterior ao texto acima)
-O áudio definitivo do RF09 **foi gerado** em `resultados/audios/rf07_minuta_rf09_aprovada.wav` e aprovado por escuta às 15h23, conforme `rf07_revisao_humana.json`. O campo `revisao_audio_pendente` nos metadados de geração representa a situação **naquele momento**, e não deve ser sobrescrito. Foi localizado e incluído `resultados/logs/auditoria.jsonl`, contendo **um evento real** de síntese RF07. As execuções antigas continuam sem histórico central completo; não foram fabricadas.
+`resultados/logs/auditoria.jsonl` contém cinco eventos reais:
+
+1. Execução RF07 (síntese de voz).
+2. Execução RF06 (nova transcrição).
+3. Aprovação humana RF06.
+4. Execução RF08 (nova extração OCR).
+5. Aprovação humana RF08.
+
+Os eventos de decisão humana referenciam as execuções e, nos casos RF06/RF08, os arquivos aprovados e seus hashes. Os eventos antigos não registrados continuam sem reconstrução retroativa; a demonstração offline registra apenas a conferência offline. RF10 possui nota de proveniência separada, ainda não integrada ao log central.
+
+## Verificação reproduzível
+
+Execute:
+
+```powershell
+python -m pytest -q
+python -m src.verificar_pendencias
+python -m src.demonstracao
+```
+
+O verificador não chama APIs nem altera o log de auditoria. A suíte aprovada contém 126 testes no pacote revisado. Os testes não eliminam as limitações históricas descritas acima.

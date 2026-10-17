@@ -302,9 +302,7 @@ sem afirmar que as chamadas históricas à API foram reexecutadas.
 O comando `python -m src.main` continua sendo o ponto de entrada de
 inicialização/configuração, e não um pipeline automático de produção.
 
-A síntese RF07 documentada utiliza uma minuta de teste aprovada para o ensaio;
-não corresponde ao áudio da minuta definitiva RF09. Para uso institucional,
-a versão aprovada precisaria passar por síntese e conferência específicas.
+O áudio definitivo RF07 foi gerado a partir de `resultados/minutas/rf09_minuta_revisada.txt`, está salvo em `resultados/audios/rf07_minuta_rf09_aprovada.wav` e foi aprovado por escuta humana em 17/10/2026. O ensaio `rf07_minuta_falada.wav` foi preservado separadamente. O hash do texto usado na síntese é conferido pelo verificador.
 
 **Pacote de entrega:** `.env.example` deve ser incluído; `.env` verdadeiro,
 `.venv`, caches e credenciais não devem ser incluídos. Os arquivos fictícios
@@ -313,18 +311,11 @@ originais e os gabaritos locais são evidências necessárias para a avaliação
 
 ## Complemento de conformidade RF06, RF07, RF08 e RF11
 
-- `dados/gabaritos/rf06_referencia_posterior.txt` é uma **referência retrospectiva**, copiada da transcrição revisada, e **não é um gabarito independente preparado antes da inferência**. O RF06 ainda exige validação por escuta independente se esse for o critério de aceite aplicado.
-- A síntese original `rf07_minuta_falada.wav` é um ensaio. Para sintetizar a **minuta RF09 aprovada** sem sobrescrever o ensaio, conferir previamente o texto e executar:
-
-```powershell
-python -m src.sintese_voz resultados/minutas/rf09_minuta_revisada.txt --aprovado --final-rf09
-```
-
-O comando requer `GEMINI_API_KEY` configurada, acesso à API e pode consumir créditos. Produz `resultados/audios/rf07_minuta_rf09_aprovada.wav` e metadados separados. **Ouça o áudio inteiro** e confirme correspondência antes de declarar a revisão concluída; a execução deixa `revisao_audio_pendente=true`.
-
-- `python -m src.verificar_pendencias` confere a presença das evidências, o hash da minuta associada ao áudio e a existência do log central, sem chamar APIs.
-- O gabarito RF08 foi atualizado após o OCR: essa comparação não é avaliação cega independente.
-- Logs antigos que não foram coletados **não podem ser reconstruídos como se fossem registros originais**. `resultados/logs/demonstracao_offline.jsonl` registra somente a demonstração offline. Se houver `resultados/logs/auditoria.jsonl` real no PC, preservar e avaliar inclusão na entrega após conferir dados sensíveis.
+- **RF06:** a nova transcrição `dados/processados/rf06_nova_transcricao_20261017_160731.txt` foi comparada à referência confirmada por escuta humana do áudio original e aprovada em 17/10/2026. A referência foi derivada de transcrição anterior, portanto a limitação de independência histórica permanece explicitada; não se afirma que ela existia antes da primeira inferência.
+- **RF07:** o áudio definitivo da minuta revisada foi gerado, conferido por escuta e aprovado. A aprovação e o hash da minuta são mantidos nos metadados de revisão e de geração. O campo `revisao_audio_pendente` nos metadados de geração representa o estado no instante em que a síntese terminou e foi preservado sem adulteração.
+- **RF08:** os seis campos críticos do gabarito (`codigo_matricula`, `data_nascimento`, `cpf`, `rg`, `data_matricula` e `inicio_curso`) foram confirmados visualmente no PDF original antes da nova extração. O texto bruto foi preservado; a versão corrigida recebeu aprovação humana. As correções posteriores não são contabilizadas como acertos originais do OCR.
+- **RF11:** o histórico central contém cinco eventos reais: execução e decisão humana de RF06, execução e decisão humana de RF08, e execução de RF07. O histórico anterior incompleto permanece uma limitação; nenhum evento antigo foi inventado. RF10 mantém nota de proveniência própria, ainda não integrada ao log central.
+- `python -m src.verificar_pendencias` verifica os arquivos, os hashes, a ordem temporal documentada e os vínculos de aprovação sem chamar APIs nem alterar a auditoria.
 
 ## Conferência definitiva das evidências (sem apresentação)
 

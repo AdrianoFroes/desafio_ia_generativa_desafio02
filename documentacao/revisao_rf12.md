@@ -88,7 +88,7 @@ Foram executados 11 testes automatizados específicos de privacidade, todos apro
 
 
 
-Naquela etapa intermediária, a suíte apresentou 111 testes aprovados. Na verificação final da entrega, a suíte completa apresentou 123 testes aprovados.
+Naquela etapa intermediária, a suíte apresentou 111 testes aprovados. Na verificação final anterior, a suíte completa apresentou 123 testes aprovados; após as correções e os testes adicionais, o pacote revisado apresentou 126 testes aprovados.
 
 
 

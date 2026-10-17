@@ -72,3 +72,10 @@ A transcrição automática foi realizada com sucesso e conferida manualmente. C
 
 O resultado está pronto para ser utilizado nas próximas etapas do projeto.
 
+
+
+## Atualização da nova execução — 17/10/2026
+
+A nova transcrição `dados/processados/rf06_nova_transcricao_20261017_160731.txt` foi gerada com `gemini-3.5-transcribe` e comparada com a referência validada por escuta do áudio original. A pessoa responsável confirmou que o texto corresponde ao áudio e aprovou a nova transcrição às 16h09. A execução e a decisão humana estão registradas em `resultados/logs/auditoria.jsonl`; a decisão referencia o arquivo revisado e seu SHA-256.
+
+**Limitação:** a referência validada deriva de uma transcrição anterior, embora tenha sido conferida por escuta antes da nova inferência. Portanto, a nova execução tem uma referência humana confirmada, mas não se deve descrevê-la como independente da primeira inferência.

@@ -175,7 +175,7 @@ A taxa inicial de aprovação foi de 50%.
 
 Esse percentual é apenas demonstrativo, devido à quantidade reduzida de casos avaliados.
 
-A suíte completa do projeto registrou 123 testes automatizados aprovados.
+A suíte completa do pacote revisado registrou 126 testes automatizados aprovados.
 
 ### 10. Custos e desempenho
 
