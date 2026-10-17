@@ -5,11 +5,12 @@ import os
 import re
 import time
 import wave
-from pathlib import Path
-
+import uuid
 import requests
-from dotenv import load_dotenv
 
+from src.audit import registrar_execucao
+from pathlib import Path
+from dotenv import load_dotenv
 
 RAIZ = Path(__file__).resolve().parent.parent
 MODELO = "gemini-2.5-flash-preview-tts"
@@ -34,8 +35,11 @@ def preparar_texto(texto, aprovado):
     return texto
 
 
-def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180):
+def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180, id_execucao=None,):
     caminho_minuta = Path(caminho_minuta)
+
+    if id_execucao is None:
+        id_execucao = str(uuid.uuid4())
 
     if not caminho_minuta.is_file():
         raise FileNotFoundError("Arquivo da minuta não encontrado.")
@@ -134,16 +138,15 @@ def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180):
     if not audio:
         raise RuntimeError("A API não retornou dados de áudio.")
 
+
     pasta = RAIZ / "resultados" / "audios"
-    pasta.mkdir(parents=True, exist_ok=True)
-
     destino = pasta / "rf07_minuta_falada.wav"
+    arquivo_info = pasta / "rf07_informacoes.json"
 
-    with wave.open(str(destino), "wb") as arquivo:
-        arquivo.setnchannels(1)
-        arquivo.setsampwidth(2)
-        arquivo.setframerate(24000)
-        arquivo.writeframes(audio)
+    if destino.exists() or arquivo_info.exists():
+        raise FileExistsError(
+            "Os arquivos do RF07 já existem e não serão sobrescritos."
+        )
 
     informacoes = {
         "modelo": MODELO,
@@ -151,6 +154,7 @@ def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180):
         "arquivo_minuta": str(caminho_minuta),
         "arquivo_audio": str(destino),
         "aprovacao_humana_declarada": aprovado,
+        "id_execucao": id_execucao,
         "aviso_campos_ausentes": bool(
             re.search(r"não\s+localizado", texto_original, re.IGNORECASE)
         ),
@@ -158,15 +162,71 @@ def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180):
         "tokens_total": dados.get(
             "usageMetadata", {}
         ).get("totalTokenCount"),
-        "revisao_audio_pendente": True
+        "revisao_audio_pendente": True,
     }
 
-    (pasta / "rf07_informacoes.json").write_text(
-        json.dumps(informacoes, ensure_ascii=False, indent=2),
-        encoding="utf-8"
-    )
+    pasta.mkdir(parents=True, exist_ok=True)
+
+    # Primeiro prepara os arquivos temporários.
+    # Os resultados históricos não são alterados.
+    import tempfile
+
+    temporarios = []
+    publicados = []
+
+    try:
+        with tempfile.NamedTemporaryFile(
+            dir=pasta,
+            suffix=".wav.tmp",
+            delete=False,
+        ) as temporario:
+            caminho_audio_temp = Path(temporario.name)
+            temporarios.append(caminho_audio_temp)
+
+        with wave.open(str(caminho_audio_temp), "wb") as arquivo:
+            arquivo.setnchannels(1)
+            arquivo.setsampwidth(2)
+            arquivo.setframerate(24000)
+            arquivo.writeframes(audio)
+
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=pasta,
+            suffix=".json.tmp",
+            delete=False,
+        ) as temporario:
+            caminho_info_temp = Path(temporario.name)
+            temporarios.append(caminho_info_temp)
+            json.dump(
+                informacoes,
+                temporario,
+                ensure_ascii=False,
+                indent=2,
+            )
+
+        # Publica sem sobrescrever arquivos existentes.
+        with destino.open("xb") as arquivo:
+            publicados.append(destino)
+            arquivo.write(caminho_audio_temp.read_bytes())
+
+        with arquivo_info.open("x", encoding="utf-8") as arquivo:
+            publicados.append(arquivo_info)
+            arquivo.write(
+                caminho_info_temp.read_text(encoding="utf-8")
+            )
+
+    except Exception:
+        for caminho in publicados:
+            caminho.unlink(missing_ok=True)
+        raise
+
+    finally:
+        for caminho in temporarios:
+            caminho.unlink(missing_ok=True)
 
     return informacoes
+
 
 
 def main():
@@ -174,29 +234,124 @@ def main():
         description="Geração de voz para minuta aprovada."
     )
 
-    parser.add_argument("minuta", help="Caminho do arquivo de texto.")
+    parser.add_argument(
+        "minuta",
+        help="Caminho do arquivo de texto."
+    )
+
     parser.add_argument(
         "--aprovado",
         action="store_true",
-        help="Confirma que o texto foi revisado e aprovado por uma pessoa."
+        help="Confirma que o texto foi revisado e aprovado."
     )
 
     argumentos = parser.parse_args()
 
+    identificador = str(uuid.uuid4())
+    inicio = time.perf_counter()
+
+    pasta = RAIZ / "resultados" / "audios"
+    arquivo_audio = pasta / "rf07_minuta_falada.wav"
+    arquivo_info = pasta / "rf07_informacoes.json"
+
+    dados_auditoria = {
+        "requisito": "RF07",
+        "origem": "sintese_voz",
+        "provedor": "google",
+        "modelo": MODELO,
+        "versao_prompt": "rf07_v1",
+        "parametros": {},
+        "modalidade_entrada": "texto",
+        "arquivo_saida": "resultados/audios/rf07_minuta_falada.wav",
+        "arquivo_processado": "resultados/audios/rf07_informacoes.json",
+        "revisao_humana": "pendente",
+    }
+
     try:
-        resultado = sintetizar_minuta(
-            argumentos.minuta,
-            aprovado=argumentos.aprovado
+        caminho_minuta = Path(argumentos.minuta).resolve()
+        caminho_projeto = RAIZ.resolve()
+
+        try:
+            caminho_relativo = caminho_minuta.relative_to(
+                caminho_projeto
+            )
+        except ValueError as erro:
+            raise ValueError(
+                "A minuta deve estar dentro da pasta do projeto."
+            ) from erro
+
+        dados_auditoria["arquivo_entrada"] = (
+            caminho_relativo.as_posix()
         )
 
+        if arquivo_audio.exists() or arquivo_info.exists():
+            raise FileExistsError(
+                "Os arquivos do RF07 já existem e não serão sobrescritos."
+            )
+
+        resultado = sintetizar_minuta(
+            caminho_minuta,
+            aprovado=argumentos.aprovado,
+            id_execucao=identificador,
+        )
+
+        dados_auditoria.update({
+            "status": "sucesso",
+            "tempo_segundos": round(
+                time.perf_counter() - inicio, 2
+            ),
+            "tokens_total": resultado.get("tokens_total"),
+        })
+
+        try:
+            registrar_execucao(
+                dados_auditoria,
+                id_execucao=identificador,
+            )
+        except Exception:
+            # Remove apenas os arquivos produzidos nesta execução.
+            arquivo_audio.unlink(missing_ok=True)
+            arquivo_info.unlink(missing_ok=True)
+            raise
+
         print("Áudio gerado com sucesso.")
+        print("Identificador:", identificador)
         print("Modelo:", resultado["modelo"])
         print("Voz:", resultado["voz"])
         print("Arquivo:", resultado["arquivo_audio"])
-        print("Tempo:", resultado["tempo_segundos"], "segundos")
         print("Revisão do áudio ainda obrigatória.")
 
-    except (ValueError, FileNotFoundError, RuntimeError) as erro:
+    except (
+        ValueError,
+        FileNotFoundError,
+        FileExistsError,
+        RuntimeError,
+        OSError,
+    ) as erro:
+        if isinstance(erro, FileExistsError):
+            codigo = "ARQUIVO_EXISTENTE"
+        elif isinstance(erro, FileNotFoundError):
+            codigo = "ARQUIVO_AUSENTE"
+        elif isinstance(erro, OSError):
+            codigo = "ERRO_GRAVACAO"
+        elif isinstance(erro, RuntimeError):
+            codigo = "ERRO_SINTESE"
+        else:
+            codigo = "ERRO_VALIDACAO"
+
+        dados_auditoria.update({
+            "status": "erro",
+            "tempo_segundos": round(
+                time.perf_counter() - inicio, 2
+            ),
+            "codigo_erro": codigo,
+        })
+
+        registrar_execucao(
+            dados_auditoria,
+            id_execucao=identificador,
+        )
+
         print("Erro:", erro)
         raise SystemExit(1)
 

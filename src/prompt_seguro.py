@@ -1,8 +1,11 @@
 ﻿import json
 import os
-from pathlib import Path
-
+import time
+import uuid
 import requests
+
+from pathlib import Path
+from src.audit import registrar_execucao
 from dotenv import load_dotenv
 
 
@@ -160,6 +163,7 @@ def validar_resultado(resultado):
     return True, "Validações automáticas básicas aprovadas."
 
 
+
 def main():
     load_dotenv(RAIZ / ".env")
     chave = os.getenv("GEMINI_API_KEY")
@@ -178,11 +182,27 @@ def main():
 
     testes = {
         "normal": MENSAGEM_NORMAL,
-        "injecao": MENSAGEM_MALICIOSA
+        "injecao": MENSAGEM_MALICIOSA,
     }
 
     for nome, mensagem in testes.items():
         print(f"\nExecutando teste: {nome}")
+
+        identificador = str(uuid.uuid4())
+        inicio = time.perf_counter()
+
+        dados_auditoria = {
+            "requisito": "RF03",
+            "origem": "prompt_seguro",
+            "provedor": "google",
+            "modelo": config["modelo"],
+            "versao_prompt": "rf03_v1",
+            "parametros": {
+                "max_tokens": config["max_tokens"],
+            },
+            "modalidade_entrada": "texto",
+            "revisao_humana": "pendente",
+        }
 
         try:
             resultado = consultar_gemini(
@@ -192,27 +212,74 @@ def main():
             valido, observacao = validar_resultado(resultado)
 
             arquivo = pasta / f"rf03_{nome}.json"
-            arquivo.write_text(
-                json.dumps(
-                    {
-                        "teste": nome,
-                        "entrada": mensagem,
-                        "resultado": resultado,
-                        "validacao_automatica": {
-                            "aprovado": valido,
-                            "observacao": observacao
-                        }
-                    },
+
+            if arquivo.exists():
+                raise FileExistsError(
+                    "O resultado do RF03 já existe e não será sobrescrito."
+                )
+
+            conteudo = {
+                "id_execucao": identificador,
+                "teste": nome,
+                "entrada": mensagem,
+                "resultado": resultado,
+                "validacao_automatica": {
+                    "aprovado": valido,
+                    "observacao": observacao,
+                },
+            }
+
+            with arquivo.open("x", encoding="utf-8") as destino:
+                json.dump(
+                    conteudo,
+                    destino,
                     ensure_ascii=False,
-                    indent=2
+                    indent=2,
+                )
+
+            dados_auditoria.update({
+                "status": "sucesso",
+                "tempo_segundos": round(
+                    time.perf_counter() - inicio, 2
                 ),
-                encoding="utf-8"
-            )
+                "arquivo_saida": (
+                    f"resultados/logs/rf03_{nome}.json"
+                ),
+            })
+
+            try:
+                registrar_execucao(
+                    dados_auditoria,
+                    id_execucao=identificador,
+                )
+            except Exception:
+                arquivo.unlink(missing_ok=True)
+                raise
 
             print("Validação:", observacao)
             print("Resultado salvo:", arquivo.name)
 
-        except RuntimeError as erro:
+        except (RuntimeError, FileExistsError, OSError) as erro:
+            if isinstance(erro, FileExistsError):
+                codigo = "ARQUIVO_EXISTENTE"
+            elif isinstance(erro, OSError):
+                codigo = "ERRO_GRAVACAO"
+            else:
+                codigo = "ERRO_LLM"
+
+            dados_auditoria.update({
+                "status": "erro",
+                "tempo_segundos": round(
+                    time.perf_counter() - inicio, 2
+                ),
+                "codigo_erro": codigo,
+            })
+
+            registrar_execucao(
+                dados_auditoria,
+                id_execucao=identificador,
+            )
+
             print("Erro:", erro)
 
 

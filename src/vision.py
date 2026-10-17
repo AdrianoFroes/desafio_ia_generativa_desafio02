@@ -7,6 +7,7 @@ from pathlib import Path
 import pymupdf
 import requests
 from dotenv import load_dotenv
+from src.audit import registrar_execucao
 
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -124,18 +125,42 @@ def extrair_documento(caminho, modelo=MODELO, timeout=180):
     }
 
 
+
 def main():
+    import uuid
+
+    inicio = time.perf_counter()
+
     origem = RAIZ / "dados" / "originais" / "entrada_pdf-imagem.pdf"
     destino = RAIZ / "dados" / "processados"
-    destino.mkdir(parents=True, exist_ok=True)
+
+    arquivo_texto = destino / "rf08_texto_bruto.txt"
+    arquivo_info = destino / "rf08_informacoes.json"
+
+    identificador = str(uuid.uuid4())
+    arquivos_criados = []
+
+    dados_auditoria = {
+        "requisito": "RF08",
+        "origem": "vision",
+        "provedor": "google",
+        "modelo": MODELO,
+        "versao_prompt": "rf08_v1",
+        "parametros": {},
+        "modalidade_entrada": "imagem",
+        "arquivo_entrada": "dados/originais/entrada_pdf-imagem.pdf",
+        "arquivo_saida": "dados/processados/rf08_texto_bruto.txt",
+        "arquivo_processado": "dados/processados/rf08_informacoes.json",
+        "revisao_humana": "pendente",
+    }
 
     try:
-        resultado = extrair_documento(origem)
+        if arquivo_texto.exists() or arquivo_info.exists():
+            raise FileExistsError(
+                "Os arquivos do RF08 já existem e não serão sobrescritos."
+            )
 
-        (destino / "rf08_texto_bruto.txt").write_text(
-            resultado["texto_bruto"],
-            encoding="utf-8"
-        )
+        resultado = extrair_documento(origem)
 
         informacoes = {
             chave: valor
@@ -143,19 +168,78 @@ def main():
             if chave != "texto_bruto"
         }
 
-        (destino / "rf08_informacoes.json").write_text(
-            json.dumps(informacoes, ensure_ascii=False, indent=2),
-            encoding="utf-8"
+        informacoes["id_execucao"] = identificador
+
+        destino.mkdir(parents=True, exist_ok=True)
+
+        with arquivo_texto.open("x", encoding="utf-8") as arquivo:
+            arquivos_criados.append(arquivo_texto)
+            arquivo.write(resultado["texto_bruto"])
+
+        with arquivo_info.open("x", encoding="utf-8") as arquivo:
+            arquivos_criados.append(arquivo_info)
+            json.dump(
+                informacoes,
+                arquivo,
+                ensure_ascii=False,
+                indent=2,
+            )
+
+        dados_auditoria.update({
+            "status": "sucesso",
+            "tempo_segundos": round(
+                time.perf_counter() - inicio, 2
+            ),
+            "tokens_entrada": resultado.get("tokens_entrada"),
+            "tokens_saida": resultado.get("tokens_saida"),
+            "tokens_total": resultado.get("tokens_total"),
+        })
+
+        registrar_execucao(
+            dados_auditoria,
+            id_execucao=identificador,
         )
 
         print("Extração realizada com sucesso.")
-        print("Modelo:", resultado["modelo"])
-        print("Tempo:", resultado["tempo_segundos"], "segundos")
-        print("Tokens totais:", resultado["tokens_total"])
+        print("Identificador:", identificador)
+        print("Arquivo:", arquivo_texto)
         print("Revisão humana pendente.")
-        print("Arquivo:", destino / "rf08_texto_bruto.txt")
 
-    except (ValueError, FileNotFoundError, RuntimeError) as erro:
+    except (
+        ValueError,
+        FileNotFoundError,
+        FileExistsError,
+        RuntimeError,
+        OSError,
+    ) as erro:
+
+        for arquivo in arquivos_criados:
+            arquivo.unlink(missing_ok=True)
+
+        if isinstance(erro, FileExistsError):
+            codigo = "ARQUIVO_EXISTENTE"
+        elif isinstance(erro, FileNotFoundError):
+            codigo = "ARQUIVO_AUSENTE"
+        elif isinstance(erro, OSError):
+            codigo = "ERRO_GRAVACAO"
+        elif isinstance(erro, RuntimeError):
+            codigo = "ERRO_EXTRACAO"
+        else:
+            codigo = "ERRO_VALIDACAO"
+
+        dados_auditoria.update({
+            "status": "erro",
+            "tempo_segundos": round(
+                time.perf_counter() - inicio, 2
+            ),
+            "codigo_erro": codigo,
+        })
+
+        registrar_execucao(
+            dados_auditoria,
+            id_execucao=identificador,
+        )
+
         print("Erro:", erro)
         raise SystemExit(1)
 

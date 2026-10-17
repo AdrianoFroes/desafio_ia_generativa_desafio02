@@ -2,12 +2,13 @@
 import json
 import os
 import time
+import requests
+import uuid
+
+from src.audit import registrar_execucao
+from dotenv import load_dotenv
 from datetime import datetime
 from pathlib import Path
-
-import requests
-from dotenv import load_dotenv
-
 
 RAIZ = Path(__file__).resolve().parent.parent
 PASTA_RESULTADOS = RAIZ / "resultados" / "logs"
@@ -181,6 +182,7 @@ def main():
     PASTA_PROMPTS.mkdir(parents=True, exist_ok=True)
 
     identificador = datetime.now().strftime("%Y%m%d_%H%M%S")
+    id_execucao = str(uuid.uuid4())
     resultados = {}
 
     try:
@@ -268,13 +270,68 @@ def main():
                     nome, "", "", "", "", "",
                     resultado["tempo_segundos"], "", ""
                 ])
+        todas_respostas = [geracao_c, *resultados.values()]
 
+        def somar_tokens(campo):
+            valores = [
+                resposta.get(campo)
+                for resposta in todas_respostas
+            ]
+            if any(valor is None for valor in valores):
+                return None
+            return sum(valores)
+
+        registrar_execucao(
+            {
+                "requisito": "RF02",
+                "origem": "comparacao_prompts",
+                "provedor": "google",
+                "modelo": config["modelo"],
+                "versao_prompt": "rf02_v1",
+                "status": "sucesso",
+                "tempo_segundos": round(
+                    sum(
+                        resposta["tempo_segundos"]
+                        for resposta in todas_respostas
+                    ), 2
+                ),
+                "tokens_entrada": somar_tokens("tokens_entrada"),
+                "tokens_saida": somar_tokens("tokens_saida"),
+                "tokens_total": somar_tokens("tokens_total"),
+                "parametros": {
+                    "max_tokens": config["max_tokens"],
+                    "thinking_level": "low",
+                },
+                "modalidade_entrada": "texto",
+                "arquivo_saida": "resultados/logs/" + arquivo_json.name,
+                "revisao_humana": "pendente",
+            },
+            id_execucao=id_execucao,
+        )
         print("\nRF02 executado com sucesso!")
         print(f"Relatório: {arquivo_json.name}")
         print(f"Matriz de avaliação: {arquivo_csv.name}")
         print("As avaliações qualitativas devem ser preenchidas.")
 
     except RuntimeError as erro:
+        registrar_execucao(
+            {
+                "requisito": "RF02",
+                "origem": "comparacao_prompts",
+                "provedor": "google",
+                "modelo": config["modelo"],
+                "versao_prompt": "rf02_v1",
+                "status": "erro",
+                "codigo_erro": "ERRO_LLM",
+                "parametros": {
+                    "max_tokens": config["max_tokens"],
+                    "thinking_level": "low",
+                },
+                "modalidade_entrada": "texto",
+                "revisao_humana": "pendente",
+            },
+            id_execucao=id_execucao,
+        )
         print(f"\nFalha no experimento: {erro}")
         print("Nenhuma chave de API foi registrada.")
 

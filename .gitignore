@@ -35,3 +35,6 @@ dados/processados/rf08_informacoes.json
 resultados/minutas/rf09_minuta.txt
 resultados/minutas/rf09_minuta_revisada.txt
 resultados/minutas/rf09_informacoes.json
+
+# RF11 - registros de auditoria
+resultados/logs/*.jsonl

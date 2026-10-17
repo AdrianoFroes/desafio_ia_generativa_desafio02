@@ -1,9 +1,12 @@
 ﻿import json
 import re
+import time
+import uuid
+
+from src.audit import registrar_execucao
+from src.main import carregar_configuracao
 from pathlib import Path
-
 from src.llm_client import consultar_llm, ErroLLM
-
 
 RAIZ = Path(__file__).resolve().parent.parent
 
@@ -150,36 +153,117 @@ def montar_resultado(texto, interpretacao):
     return resultado
 
 
+
 def main():
+    inicio = time.perf_counter()
+    identificador = str(uuid.uuid4())
+
     origem = RAIZ / "dados" / "originais" / "entrada_texto.txt"
     destino = RAIZ / "dados" / "processados" / "rf05_extracao.json"
 
-    if not origem.exists():
-        print("Arquivo de entrada não encontrado.")
-        return
+    dados_auditoria = {
+        "requisito": "RF05",
+        "origem": "extracao",
+        "provedor": "google",
+        "modelo": "gemini-3.8-flash",
+        "versao_prompt": "rf05_v1",
+        "parametros": {},
+        "modalidade_entrada": "texto",
+        "arquivo_entrada": "dados/originais/entrada_texto.txt",
+        "arquivo_saida": "dados/processados/rf05_extracao.json",
+        "revisao_humana": "pendente",
+    }
 
-    texto = origem.read_text(encoding="utf-8-sig")
-    texto_protegido = preparar_texto(texto)
+    arquivo_criado = False
 
     try:
+        if not origem.is_file():
+            raise FileNotFoundError("Arquivo de entrada não encontrado.")
+
+        if destino.exists():
+            raise FileExistsError(
+                "O resultado do RF05 já existe e não será sobrescrito."
+            )
+
+        config = carregar_configuracao()
+
+        dados_auditoria["modelo"] = config["modelo"]
+        dados_auditoria["parametros"] = {
+            "max_tokens": config["max_tokens"],
+        }
+
+        texto = origem.read_text(encoding="utf-8-sig")
+        texto_protegido = preparar_texto(texto)
+
         interpretacao = interpretar_solicitacao(texto_protegido)
         resultado = montar_resultado(texto, interpretacao)
 
+        resultado["id_execucao"] = identificador
+
         destino.parent.mkdir(parents=True, exist_ok=True)
-        destino.write_text(
-            json.dumps(resultado, ensure_ascii=False, indent=2),
-            encoding="utf-8"
+
+        with destino.open("x", encoding="utf-8") as arquivo:
+            arquivo_criado = True
+            json.dump(
+                resultado,
+                arquivo,
+                ensure_ascii=False,
+                indent=2,
+            )
+
+        dados_auditoria.update({
+            "status": "sucesso",
+            "tempo_segundos": round(time.perf_counter() - inicio, 2),
+        })
+
+        registrar_execucao(
+            dados_auditoria,
+            id_execucao=identificador,
         )
 
         print("Extração realizada com sucesso.")
+        print("Identificador:", identificador)
         print("Protocolo:", resultado["protocolo"])
         print("Categoria:", resultado["categoria"])
         print("Confiança:", resultado["confianca"])
-        print("Campos ausentes:", ", ".join(resultado["campos_ausentes"]))
         print("Arquivo salvo:", destino)
+        print("Revisão humana pendente.")
 
-    except (ErroLLM, ValueError) as erro:
+    except (
+        ErroLLM,
+        ValueError,
+        FileNotFoundError,
+        FileExistsError,
+        KeyError,
+        OSError,
+    ) as erro:
+        if arquivo_criado:
+            destino.unlink(missing_ok=True)
+
+        if isinstance(erro, FileExistsError):
+            codigo = "ARQUIVO_EXISTENTE"
+        elif isinstance(erro, FileNotFoundError):
+            codigo = "ARQUIVO_AUSENTE"
+        elif isinstance(erro, ErroLLM):
+            codigo = "ERRO_LLM"
+        elif isinstance(erro, OSError):
+            codigo = "ERRO_GRAVACAO"
+        else:
+            codigo = "ERRO_VALIDACAO"
+
+        dados_auditoria.update({
+            "status": "erro",
+            "tempo_segundos": round(time.perf_counter() - inicio, 2),
+            "codigo_erro": codigo,
+        })
+
+        registrar_execucao(
+            dados_auditoria,
+            id_execucao=identificador,
+        )
+
         print("Erro na extração:", erro)
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

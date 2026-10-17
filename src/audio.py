@@ -6,6 +6,7 @@ from pathlib import Path
 
 import requests
 from dotenv import load_dotenv
+from src.audit import registrar_execucao
 
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -148,20 +149,41 @@ def transcrever_audio(caminho, modelo=MODELO, timeout=180):
 
 
 def main():
+    import uuid
+
+    inicio = time.perf_counter()
+
     origem = RAIZ / "dados" / "originais" / "entrada_audio.mp3"
     pasta = RAIZ / "dados" / "processados"
 
+    arquivo_texto = pasta / "rf06_transcricao.txt"
+    arquivo_info = pasta / "rf06_informacoes.json"
+
+    identificador = str(uuid.uuid4())
+
+    dados_auditoria = {
+        "requisito": "RF06",
+        "origem": "audio",
+        "provedor": "google",
+        "modelo": MODELO,
+        "versao_prompt": "rf06_v1",
+        "parametros": {},
+        "modalidade_entrada": "audio",
+        "arquivo_entrada": "dados/originais/entrada_audio.mp3",
+        "arquivo_saida": "dados/processados/rf06_transcricao.txt",
+        "arquivo_processado": "dados/processados/rf06_informacoes.json",
+        "revisao_humana": "pendente",
+    }
+
+    arquivos_criados = []
+
     try:
+        if arquivo_texto.exists() or arquivo_info.exists():
+            raise FileExistsError(
+                "Os arquivos do RF06 já existem e não serão sobrescritos."
+            )
+
         resultado = transcrever_audio(origem)
-
-        pasta.mkdir(parents=True, exist_ok=True)
-
-        arquivo_texto = pasta / "rf06_transcricao.txt"
-        arquivo_info = pasta / "rf06_informacoes.json"
-
-        arquivo_texto.write_text(
-            resultado["transcricao"], encoding="utf-8"
-        )
 
         informacoes = {
             chave: valor
@@ -169,22 +191,79 @@ def main():
             if chave != "transcricao"
         }
 
-        arquivo_info.write_text(
-            json.dumps(informacoes, ensure_ascii=False, indent=2),
-            encoding="utf-8"
+        informacoes["id_execucao"] = identificador
+        informacoes["revisao_humana_pendente"] = True
+
+        pasta.mkdir(parents=True, exist_ok=True)
+
+        with arquivo_texto.open("x", encoding="utf-8") as arquivo:
+            arquivos_criados.append(arquivo_texto)
+            arquivo.write(resultado["transcricao"])
+
+        with arquivo_info.open("x", encoding="utf-8") as arquivo:
+            arquivos_criados.append(arquivo_info)
+            json.dump(
+                informacoes,
+                arquivo,
+                ensure_ascii=False,
+                indent=2,
+            )
+
+        dados_auditoria.update({
+            "status": "sucesso",
+            "tempo_segundos": round(
+                time.perf_counter() - inicio, 2
+            ),
+            "tokens_entrada": resultado.get("tokens_entrada"),
+            "tokens_saida": resultado.get("tokens_saida"),
+            "tokens_total": resultado.get("tokens_total"),
+        })
+
+        registrar_execucao(
+            dados_auditoria,
+            id_execucao=identificador,
         )
 
         print("Transcrição realizada com sucesso.")
-        print("Modelo:", resultado["modelo"])
-        print("Tempo:", resultado["tempo_segundos"], "segundos")
-        print("Tokens totais:", resultado["tokens_total"])
-        print("Caracteres transcritos:", len(resultado["transcricao"]))
+        print("Identificador:", identificador)
         print("Arquivo:", arquivo_texto)
-        print("Revisão humana obrigatória:", resultado["revisao_humana"])
+        print("Revisão humana obrigatória: True")
 
-    except (ValueError, FileNotFoundError, RuntimeError) as erro:
+    except (
+        ValueError,
+        FileNotFoundError,
+        FileExistsError,
+        RuntimeError,
+        OSError,
+    ) as erro:
+
+        for arquivo in arquivos_criados:
+            arquivo.unlink(missing_ok=True)
+
+        if isinstance(erro, FileExistsError):
+            codigo = "ARQUIVO_EXISTENTE"
+        elif isinstance(erro, FileNotFoundError):
+            codigo = "ARQUIVO_AUSENTE"
+        elif isinstance(erro, OSError):
+            codigo = "ERRO_GRAVACAO"
+        elif isinstance(erro, RuntimeError):
+            codigo = "ERRO_TRANSCRICAO"
+        else:
+            codigo = "ERRO_VALIDACAO"
+
+        dados_auditoria.update({
+            "status": "erro",
+            "tempo_segundos": round(
+                time.perf_counter() - inicio, 2
+            ),
+            "codigo_erro": codigo,
+        })
+
+        registrar_execucao(
+            dados_auditoria,
+            id_execucao=identificador,
+        )
+
         print("Erro:", erro)
-
-
 if __name__ == "__main__":
     main()
