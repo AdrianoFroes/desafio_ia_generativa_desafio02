@@ -85,7 +85,7 @@ Foi produzido um arquivo WAV utilizando o modelo Gemini 2.5 Flash Preview TTS, c
 
 A revisão humana confirmou a correspondência entre o áudio e a minuta de teste.
 
-A síntese foi demonstrada com uma minuta de teste, não com a minuta definitiva do RF09.
+Além do ensaio com minuta de teste, foi gerado o áudio definitivo `resultados/audios/rf07_minuta_rf09_aprovada.wav` a partir da minuta revisada RF09 em 17/10/2026. A aprovação por escuta ocorreu posteriormente, às 15h23, e está registrada em `resultados/audios/rf07_revisao_humana.json`. Os metadados originais preservam o estado "revisao_audio_pendente" no momento da síntese; não se trata de pendência atual.
 
 **RF08 — OCR e visão multimodal**
 
@@ -229,4 +229,4 @@ dessa verificação, e **não** representa auditoria retroativa das inferências
 
 O comando `python -m src.main` continua restrito à inicialização.
 A demonstração offline não substitui uma execução multimodal ponta a ponta,
-e a síntese RF07 permanece referente à minuta de teste utilizada no ensaio.
+e a síntese RF07 final está disponível com revisão humana documentada. A demonstração offline não representa execução integral da cadeia de APIs.

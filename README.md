@@ -325,3 +325,9 @@ O comando requer `GEMINI_API_KEY` configurada, acesso à API e pode consumir cr�
 - `python -m src.verificar_pendencias` confere a presença das evidências, o hash da minuta associada ao áudio e a existência do log central, sem chamar APIs.
 - O gabarito RF08 foi atualizado após o OCR: essa comparação não é avaliação cega independente.
 - Logs antigos que não foram coletados **não podem ser reconstruídos como se fossem registros originais**. `resultados/logs/demonstracao_offline.jsonl` registra somente a demonstração offline. Se houver `resultados/logs/auditoria.jsonl` real no PC, preservar e avaliar inclusão na entrega após conferir dados sensíveis.
+
+## Conferência definitiva das evidências (sem apresentação)
+
+Execute `python -m src.verificar_pendencias` e `python -m src.demonstracao` para conferir o pacote sem chamadas à API. Consulte `documentacao/matriz_conformidade_pdf.md` para a correspondência de **cada requisito do enunciado** com arquivos de evidência e limitações. A execução de testes não comprova, por si só, que existiam gabaritos anteriores às inferências ou logs históricos que não foram coletados.
+
+O áudio RF07 da minuta revisada foi gerado e aprovado por escuta em 17/10/2026; os metadados originais ainda registram revisão pendente no instante da geração, o que é historicamente correto.

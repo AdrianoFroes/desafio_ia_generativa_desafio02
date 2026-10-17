@@ -267,3 +267,5 @@ A auditoria foi integrada aos fluxos RF02, RF03, RF05, RF06, RF07, RF08 e RF09, 
 Naquela etapa intermediária, a suíte apresentou **100 testes aprovados**. Na verificação final da entrega, a suíte completa apresentou **123 testes aprovados**.
 
 A conclusão definitiva do requisito depende da verificação das limitações remanescentes e da conferência final das evidências exigidas pelo enunciado.
+## Evidência real acrescentada em 17/10/2026
+O arquivo `resultados/logs/auditoria.jsonl` contém **um registro de execução real** de RF07, vinculado por `id_execucao` aos metadados do áudio final. A revisão humana posterior é preservada em arquivo separado `resultados/audios/rf07_revisao_humana.json`; o evento original corretamente informa `pendente`. Não há histórico central completo das inferências anteriores no pacote. A demonstração offline não substitui esse histórico.

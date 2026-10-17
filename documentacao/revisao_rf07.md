@@ -1,4 +1,4 @@
-﻿# RF07 — Síntese de voz e acessibilidade
+# RF07 — Síntese de voz e acessibilidade
 
 ## Objetivo
 
@@ -67,8 +67,12 @@ A correspondência entre o texto aprovado e o áudio precisa ser conferida por u
 
 O áudio não substitui a versão escrita nem garante acessibilidade para todas as pessoas, incluindo aquelas com deficiência auditiva.
 
-## Integração futura
+## Síntese definitiva RF09 — realizada em 17/10/2026
 
-Quando o RF09 estiver implementado, a síntese deverá receber a minuta institucional definitiva somente após a revisão e aprovação humana.
+Além do ensaio descrito acima, a minuta `resultados/minutas/rf09_minuta_revisada.txt` foi sintetizada com `--aprovado --final-rf09` em `resultados/audios/rf07_minuta_rf09_aprovada.wav`.
 
-O sistema não realiza envio automático.
+- Metadados da chamada: `resultados/audios/rf07_minuta_rf09_informacoes.json` (ID `1fe08640-58e4-48cc-9c3a-1a891f90236b`).
+- Registro real de execução: `resultados/logs/auditoria.jsonl` (revisão **pendente na hora da geração**, preservada historicamente).
+- Aprovação humana posterior, após escuta: `resultados/audios/rf07_revisao_humana.json`, em 17/10/2026 às 15h23 (UTC−04:00).
+- O hash SHA-256 da minuta permite detectar alterações posteriores do texto; a revisão humana atesta a escuta, mas não é uma análise automática de correspondência palavra a palavra.
+- O sistema não realiza envio automático.

@@ -11,3 +11,6 @@ O gabarito final foi ajustado depois do OCR; a divergência da data de matrícul
 
 ## RF11 — Auditoria
 O módulo de auditoria registra eventos de execuções futuras. O histórico das inferências antigas não pode ser criado retroativamente como log original. `demonstracao_offline.jsonl` comprova apenas conferência offline. Caso exista `auditoria.jsonl` original no computador, verificar integridade e confidencialidade antes de incluí-lo no pacote. A ausência de histórico completo permanece uma limitação do protótipo.
+
+## Atualização factual — 17/10/2026 (posterior ao texto acima)
+O áudio definitivo do RF09 **foi gerado** em `resultados/audios/rf07_minuta_rf09_aprovada.wav` e aprovado por escuta às 15h23, conforme `rf07_revisao_humana.json`. O campo `revisao_audio_pendente` nos metadados de geração representa a situação **naquele momento**, e não deve ser sobrescrito. Foi localizado e incluído `resultados/logs/auditoria.jsonl`, contendo **um evento real** de síntese RF07. As execuções antigas continuam sem histórico central completo; não foram fabricadas.
