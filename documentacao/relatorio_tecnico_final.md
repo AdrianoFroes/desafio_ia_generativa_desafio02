@@ -214,3 +214,19 @@ O protótipo atende a uma finalidade educacional e não constitui um sistema pro
 Qualquer aplicação institucional real exigiria avaliações adicionais de segurança, privacidade, desempenho, custos e governança.
 
 **A responsabilidade pelas decisões e pela utilização das respostas permanece humana.**
+
+### Complemento de entrega — identidade visual e demonstração
+
+As versões de apresentação `resultados/minutas/rf09_minuta_com_brasao.pdf` e
+`resultados/minutas/rf09_minuta_revisada_com_brasao.pdf` incorporam a imagem
+`dados/originais/brasao.png`, com aviso expresso de protótipo acadêmico, sem
+chancela institucional. As minutas `.txt` originais e revisadas foram preservadas.
+
+O módulo `src/demonstracao.py` apresenta o encadeamento das evidências de
+texto, áudio, OCR, minuta, imagem e avaliação, sem novas chamadas a APIs.
+O log `resultados/logs/demonstracao_offline.jsonl` registra a execução real
+dessa verificação, e **não** representa auditoria retroativa das inferências.
+
+O comando `python -m src.main` continua restrito à inicialização.
+A demonstração offline não substitui uma execução multimodal ponta a ponta,
+e a síntese RF07 permanece referente à minuta de teste utilizada no ensaio.

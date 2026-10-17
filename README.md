@@ -26,6 +26,8 @@ Dependências principais:
 openai==3.33.0
 python-dotenv==1.2.4
 requests==2.34.2
+pymupdf==1.28.2
+pytest==9.1.1
 ```
 
 O projeto utiliza integrações com serviços como Gemini, Groq e Hugging Face, conforme a funcionalidade executada.
@@ -277,3 +279,33 @@ As evidências, limitações e revisões estão registradas na documentação do
 ## 10. Curso
 
 **FIC Dev IA — Módulo 01: IA Generativa.**
+
+
+## Demonstração offline e identidade visual (complemento da entrega)
+
+As minutas `.txt` permanecem inalteradas como evidências de geração e revisão.
+As versões de **apresentação** em PDF incluem `dados/originais/brasao.png`,
+identificação de documento fictício e aviso de que não são comunicações oficiais.
+O brasão é usado apenas para demonstração acadêmica; não indica aprovação do GOV.MT.
+
+```bash
+python -m src.gerar_minuta_pdf --versao ambas
+python -m src.demonstracao
+python -m src.demonstracao --registrar
+python -m pytest -q
+```
+
+A demonstração é **offline**: verifica a presença dos artefatos já produzidos,
+não chama modelos, não recria respostas e não simula inferências. A opção
+`--registrar` cria um log JSONL verdadeiro **da própria conferência offline**,
+sem afirmar que as chamadas históricas à API foram reexecutadas.
+O comando `python -m src.main` continua sendo o ponto de entrada de
+inicialização/configuração, e não um pipeline automático de produção.
+
+A síntese RF07 documentada utiliza uma minuta de teste aprovada para o ensaio;
+não corresponde ao áudio da minuta definitiva RF09. Para uso institucional,
+a versão aprovada precisaria passar por síntese e conferência específicas.
+
+**Pacote de entrega:** `.env.example` deve ser incluído; `.env` verdadeiro,
+`.venv`, caches e credenciais não devem ser incluídos. Os arquivos fictícios
+originais e os gabaritos locais são evidências necessárias para a avaliação.

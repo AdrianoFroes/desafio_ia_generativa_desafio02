@@ -1,4 +1,4 @@
-﻿# RF11 — Registro e rastreabilidade
+# RF11 — Registro e rastreabilidade
 
 ## 1. Objetivo
 
@@ -264,6 +264,6 @@ O RF11 possui implementação funcional de auditoria estruturada, com identifica
 
 A auditoria foi integrada aos fluxos RF02, RF03, RF05, RF06, RF07, RF08 e RF09, com testes automatizados de integração e tratamento de falhas. O RF10 mantém registro próprio de proveniência, ainda não integrado à auditoria central.
 
-A última execução da suíte completa apresentou **100 testes aprovados**.
+Naquela etapa intermediária, a suíte apresentou **100 testes aprovados**. Na verificação final da entrega, a suíte completa apresentou **123 testes aprovados**.
 
 A conclusão definitiva do requisito depende da verificação das limitações remanescentes e da conferência final das evidências exigidas pelo enunciado.

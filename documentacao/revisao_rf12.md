@@ -88,7 +88,7 @@ Foram executados 11 testes automatizados específicos de privacidade, todos apro
 
 
 
-Após a integração, a suíte completa do projeto apresentou 111 testes aprovados.
+Naquela etapa intermediária, a suíte apresentou 111 testes aprovados. Na verificação final da entrega, a suíte completa apresentou 123 testes aprovados.
 
 
 

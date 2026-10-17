@@ -1,4 +1,4 @@
-﻿# RF09 — Geração de Minuta Institucional
+# RF09 — Geração de Minuta Institucional
 
 ## Objetivo
 
@@ -82,3 +82,13 @@ Resposta enviada ao cidadão: não.
 O RF09 produziu uma minuta institucional baseada nos dados disponíveis, sem inventar decisões ou documentos.
 
 A versão revisada foi aprovada por conferência humana e permanece como rascunho, aguardando eventual utilização institucional autorizada.
+
+
+## Identidade visual — complemento da entrega
+
+Foram geradas versões de apresentação em PDF com o brasão fornecido
+(`dados/originais/brasao.png`): `rf09_minuta_com_brasao.pdf` e
+`rf09_minuta_revisada_com_brasao.pdf`. As minutas textuais originais
+permanecem intactas. Os PDFs são protótipos acadêmicos fictícios e
+trazem aviso de que não são documentos oficiais nem devem ser enviados.
+Geração local: `python -m src.gerar_minuta_pdf --versao ambas`.
