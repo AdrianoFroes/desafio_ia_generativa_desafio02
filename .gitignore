@@ -17,3 +17,5 @@ Thumbs.db
 # Logs e arquivos temporários
 *.log
 *.tmp
+
+dados/processados/rf05_extracao.json
