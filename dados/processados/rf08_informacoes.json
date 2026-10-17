@@ -1,0 +1,14 @@
+{
+  "modelo": "gemini-3.8-flash",
+  "arquivo_original": "entrada_pdf-imagem.pdf",
+  "tempo_segundos": 60.79,
+  "tokens_entrada": 1184,
+  "tokens_saida": 474,
+  "tokens_total": 2273,
+  "revisao_humana_pendente": false,
+  "revisao_humana_realizada": true,
+  "resultado_revisao": "aprovado",
+  "texto_corrigido": "rf08_texto_corrigido.txt",
+  "gabarito_final": "rf08_gabarito.txt",
+  "observacao_revisao": "Texto do Gemini confirmado por conferência humana do PDF. O gabarito provisório apresentava divergências."
+}

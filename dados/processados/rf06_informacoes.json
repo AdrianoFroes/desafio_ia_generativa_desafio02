@@ -1,0 +1,8 @@
+{
+  "modelo": "gemini-3.5-transcribe",
+  "tempo_segundos": 3.47,
+  "tokens_entrada": 2261,
+  "tokens_saida": 222,
+  "tokens_total": 2483,
+  "revisao_humana": true
+}

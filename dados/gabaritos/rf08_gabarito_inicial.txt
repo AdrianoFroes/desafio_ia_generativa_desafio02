@@ -1,0 +1,65 @@
+﻿RF08 — GABARITO DE REFERÊNCIA
+
+Documento original:
+entrada_pdf-imagem.pdf
+
+Tipo de documento:
+Ficha de Matrícula
+
+Instituição:
+Governo do Estado de Mato Grosso
+Secretaria de Estado de Ciência, Tecnologia e Inovação — SECITECI/MT
+Escola Técnica Estadual de Cuiabá
+
+INFORMAÇÕES IDENTIFICADAS
+
+Código: 2024-000142
+Nome: Marcos Vinicius de Almeida Santos
+Data de nascimento: 12/03/2008
+CPF: ilegível — exige conferência humana
+RG: 23.456.7-8 — exige conferência humana
+Órgão expedidor: não localizado
+Naturalidade: Cuiabá
+UF: não localizado
+Nome da mãe: Lucia Helena de Almeida Santos
+Nome do pai: não localizado
+
+Curso: Técnico em Enfermagem
+Eixo tecnológico: Saúde
+Carga horária: 1200 horas
+Município: não localizado
+Turno: Noturno
+Turma: não localizado
+Início do curso: 01/02/2027
+Término do curso: não localizado
+
+Telefone celular: não localizado
+Telefone residencial: não localizado
+E-mail: marcos.almeida.teste@exemplo.com
+
+Data da matrícula: 14/10/2026
+
+OUTRAS INFORMAÇÕES
+
+O documento apresenta declaração de ciência sobre
+cancelamento automático da matrícula em caso de faltas
+sem justificativa comprovada.
+
+Existe assinatura manuscrita no campo destinado ao
+aluno ou responsável.
+
+TRECHOS INCERTOS
+
+CPF: leitura insuficiente para confirmação.
+RG: leitura provisória, exige conferência humana.
+Assinatura: não transcrever como identificação confirmada.
+
+OBSERVAÇÕES
+
+Gabarito preparado a partir da inspeção visual do
+documento original, antes da execução do OCR por IA.
+
+Os campos não preenchidos não devem receber
+valores inventados.
+
+Os dados críticos devem passar por revisão humana.
