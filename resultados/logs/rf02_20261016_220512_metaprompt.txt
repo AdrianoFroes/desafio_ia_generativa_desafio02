@@ -1,0 +1,27 @@
+
+Crie um prompt para orientar outro modelo de IA a redigir
+uma resposta institucional a um cidadão.
+
+O prompt criado deve conter persona, contexto, tarefa,
+formato e critérios de sucesso.
+
+O texto produzido pelo outro modelo deve ser claro, educado,
+fiel aos dados e não pode inventar prazos, decisões ou fatos.
+
+Utilize o seguinte contexto:
+
+
+Uma pessoa solicitou informações sobre o andamento de um pedido
+de manutenção predial em uma secretaria pública.
+
+Dados disponíveis:
+- Solicitante: João Silva
+- Protocolo: 2026/001234
+- Data do registro: 12/06/2026
+- Assunto: manutenção predial
+- Situação: encaminhado para análise do setor responsável
+
+Não há prazo de conclusão informado.
+
+
+Responda somente com o prompt que deverá ser utilizado.

@@ -1,0 +1,4 @@
+﻿Prompt;Fidelidade ao contexto;Dados inventados;Formato;Tom institucional;Lacunas;Tempo de resposta (s);Tempo ate resultado utilizavel (s);Observacoes
+A_zero_shot;Parcial;Sim;Adequado;Formal;Prazo reconhecido, mas com justificativa inventada;9.93;9.93;Acrescentou avalia??o t?cnica e or?ament?ria n?o informada.
+B_estruturado;Alta;N?o identificados;Adequado;Claro e objetivo;"Prazo indicado como ""N?o localizado""";41.7;41.7;Respeitou os dados fornecidos. Prompt selecionado.
+C_metaprompt;Parcial;Sim;Adequado;Formal;Reconheceu aus?ncia de prazo;5.92;36.57;Acrescentou avalia??o t?cnica e canais de acompanhamento.

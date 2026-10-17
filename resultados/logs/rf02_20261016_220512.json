@@ -1,0 +1,42 @@
+{
+  "data": "2026-10-16T22:06:40",
+  "provedor": "gemini",
+  "modelo": "gemini-3.8-flash",
+  "temperatura": "padrão do modelo",
+  "thinking_level": "low",
+  "max_tokens": 1024,
+  "metaprompt": "\nCrie um prompt para orientar outro modelo de IA a redigir\numa resposta institucional a um cidadão.\n\nO prompt criado deve conter persona, contexto, tarefa,\nformato e critérios de sucesso.\n\nO texto produzido pelo outro modelo deve ser claro, educado,\nfiel aos dados e não pode inventar prazos, decisões ou fatos.\n\nUtilize o seguinte contexto:\n\n\nUma pessoa solicitou informações sobre o andamento de um pedido\nde manutenção predial em uma secretaria pública.\n\nDados disponíveis:\n- Solicitante: João Silva\n- Protocolo: 2026/001234\n- Data do registro: 12/06/2026\n- Assunto: manutenção predial\n- Situação: encaminhado para análise do setor responsável\n\nNão há prazo de conclusão informado.\n\n\nResponda somente com o prompt que deverá ser utilizado.\n",
+  "geracao_prompt_c": {
+    "resposta": "Você é um(a) Assistente de Atendimento ao Cidadão de uma secretaria pública, responsável por fornecer informações claras, formais, empáticas e precisas aos cidadãos.\n\nUm cidadão chamado João Silva entrou em contato solicitando uma atualização sobre o andamento de sua solicitação de manutenção predial.\n\nDados reais do sistema:\n- Solicitante: João Silva\n- Protocolo: 2026/001234\n- Data do registro: 12/06/2026\n- Assunto: manutenção predial\n- Situação atual: encaminhado para análise do setor responsável\n- Prazo de conclusão: NÃO há prazo estipulado no momento.\n\nRedija uma resposta institucional formal e educada informando o status atual do pedido ao cidadão.\n\n- Saudação formal personalizada.\n- Confirmação dos dados da solicitação (número de protocolo, data e assunto).\n- Informação clara sobre o status atual.\n- Esclarecimento educado de que o processo segue em análise e que novos andamentos poderão ser consultados pelos canais oficiais (sem inventar prazos).\n- Encerramento cordial com identificação institucional genérica (ex.: *Equipe de Atendimento ao Cidadão*).\n\n1. Fidelidade estrita aos dados: NÃO invente datas, prazos de entrega/conclusão, setores específicos não mencionados, decisões ou fatos ausentes do contexto.\n2. Clareza e cortesia: Tom profissional, respeitoso e acessível.\n3. Transparência: Deixe evidente que o pedido está sob análise, sem gerar falsas expectativas de tempo para o solicitante.",
+    "tempo_segundos": 30.65,
+    "tokens_entrada": 196,
+    "tokens_saida": 355,
+    "tokens_total": 551
+  },
+  "resultados": {
+    "A_zero_shot": {
+      "prompt": "\nRedija uma resposta institucional ao cidadão com base nestes dados:\n\n\nUma pessoa solicitou informações sobre o andamento de um pedido\nde manutenção predial em uma secretaria pública.\n\nDados disponíveis:\n- Solicitante: João Silva\n- Protocolo: 2026/001234\n- Data do registro: 12/06/2026\n- Assunto: manutenção predial\n- Situação: encaminhado para análise do setor responsável\n\nNão há prazo de conclusão informado.\n\n",
+      "resposta": "Aqui está uma proposta de resposta institucional, redigida em tom formal, claro e cortês:\n\n***\n\n**Prezado(a) Sr.(a) João Silva,**\n\nAgradecemos o seu contato com esta Secretaria.\n\nEm atenção à sua solicitação de informações sobre o andamento do pedido de **manutenção predial**, registrado sob o **Protocolo nº 2026/001234** em **12/06/2026**, informamos que a demanda se encontra **encaminhada para análise do setor técnico responsável**.\n\nEsclarecemos que, no momento, o procedimento está em fase de avaliação técnica e orçamentária para a devida programação dos serviços, motivo pelo qual ainda não há uma data definitiva para a conclusão dos trabalhos. \n\nNovas atualizações sobre o andamento da sua solicitação poderão ser acompanhadas por meio dos nossos canais oficiais de atendimento, informando o número do protocolo acima mencionado.\n\nPermanecemos à disposição para eventuais esclarecimentos.\n\nAtenciosamente,\n\n**[Nome do Órgão / Secretaria Pública]**  \n[Setor de Atendimento ao Cidadão / Ouvidoria]  \n[Telefone / E-mail de Contato]  \n[Site institucional]",
+      "tempo_segundos": 9.93,
+      "tokens_entrada": 114,
+      "tokens_saida": 269,
+      "tokens_total": 383
+    },
+    "B_estruturado": {
+      "prompt": "\nPERSONA:\nVocê é um atendente de uma secretaria pública.\n\nCONTEXTO:\n\nUma pessoa solicitou informações sobre o andamento de um pedido\nde manutenção predial em uma secretaria pública.\n\nDados disponíveis:\n- Solicitante: João Silva\n- Protocolo: 2026/001234\n- Data do registro: 12/06/2026\n- Assunto: manutenção predial\n- Situação: encaminhado para análise do setor responsável\n\nNão há prazo de conclusão informado.\n\n\nTAREFA:\nRedigir uma resposta ao cidadão sobre o andamento do pedido.\n\nFORMATO:\nProduza uma mensagem curta, com saudação, informações\nsobre o protocolo e encerramento.\n\nCRITÉRIOS DE SUCESSO:\n- Use linguagem clara, educada e institucional.\n- Utilize apenas as informações fornecidas.\n- Não invente prazos, procedimentos ou decisões.\n- Quando faltar uma informação, indique \"não localizado\".\n- Não afirme que o pedido foi concluído.\n",
+      "resposta": "Prezado Sr. João Silva,\n\nAgradecemos o contato com nossa secretaria. Seguem as informações sobre a sua solicitação:\n\n- **Protocolo:** 2026/001234\n- **Data do registro:** 12/06/2026\n- **Assunto:** Manutenção predial\n- **Situação:** Encaminhado para análise do setor responsável\n- **Prazo de conclusão:** Não localizado\n\nPermanecemos à disposição para novos esclarecimentos.\n\nAtenciosamente,  \nAtendimento ao Cidadão  \nSecretaria Pública",
+      "tempo_segundos": 41.7,
+      "tokens_entrada": 232,
+      "tokens_saida": 126,
+      "tokens_total": 358
+    },
+    "C_metaprompt": {
+      "prompt": "Você é um(a) Assistente de Atendimento ao Cidadão de uma secretaria pública, responsável por fornecer informações claras, formais, empáticas e precisas aos cidadãos.\n\nUm cidadão chamado João Silva entrou em contato solicitando uma atualização sobre o andamento de sua solicitação de manutenção predial.\n\nDados reais do sistema:\n- Solicitante: João Silva\n- Protocolo: 2026/001234\n- Data do registro: 12/06/2026\n- Assunto: manutenção predial\n- Situação atual: encaminhado para análise do setor responsável\n- Prazo de conclusão: NÃO há prazo estipulado no momento.\n\nRedija uma resposta institucional formal e educada informando o status atual do pedido ao cidadão.\n\n- Saudação formal personalizada.\n- Confirmação dos dados da solicitação (número de protocolo, data e assunto).\n- Informação clara sobre o status atual.\n- Esclarecimento educado de que o processo segue em análise e que novos andamentos poderão ser consultados pelos canais oficiais (sem inventar prazos).\n- Encerramento cordial com identificação institucional genérica (ex.: *Equipe de Atendimento ao Cidadão*).\n\n1. Fidelidade estrita aos dados: NÃO invente datas, prazos de entrega/conclusão, setores específicos não mencionados, decisões ou fatos ausentes do contexto.\n2. Clareza e cortesia: Tom profissional, respeitoso e acessível.\n3. Transparência: Deixe evidente que o pedido está sob análise, sem gerar falsas expectativas de tempo para o solicitante.",
+      "resposta": "Prezado(a) Senhor(a) João Silva,\n\nAgradecemos o seu contato com este canal de atendimento.\n\nInformamos que localizamos a sua solicitação em nossos registros, conforme os dados a seguir:\n\n* **Protocolo:** 2026/001234\n* **Data do registro:** 12/06/2026\n* **Assunto:** Manutenção predial\n\nEm atenção ao seu pedido de atualização, comunicamos que a situação atual do processo é: **encaminhado para análise do setor responsável**. \n\nEsclarecemos que o procedimento segue em fase de avaliação técnica e, no momento, não há um prazo estipulado para a sua conclusão. Tão logo haja atualizações, o senhor poderá acompanhar o andamento diretamente pelos nossos canais oficiais de consulta.\n\nPermanecemos à disposição para eventuais esclarecimentos.\n\nAtenciosamente,\n\n**Equipe de Atendimento ao Cidadão**",
+      "tempo_segundos": 5.92,
+      "tokens_entrada": 356,
+      "tokens_saida": 203,
+      "tokens_total": 559
+    }
+  }
+}
