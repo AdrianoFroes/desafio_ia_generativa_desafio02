@@ -30,3 +30,8 @@ dados/gabaritos/rf08_gabarito_inicial.txt
 dados/processados/rf08_texto_bruto.txt
 dados/processados/rf08_texto_corrigido.txt
 dados/processados/rf08_informacoes.json
+
+# RF09 - minutas e metadados da solicitacao
+resultados/minutas/rf09_minuta.txt
+resultados/minutas/rf09_minuta_revisada.txt
+resultados/minutas/rf09_informacoes.json
