@@ -272,7 +272,7 @@ As principais limitações e precauções são:
 
 Os requisitos **RF01 a RF13 foram implementados e publicados no repositório**.
 
-A suíte automatizada apresentou **123 testes aprovados** na última execução.
+A suíte automatizada apresentou **126 testes aprovados** na última execução.
 
 As evidências, limitações e revisões estão registradas na documentação do projeto.
 

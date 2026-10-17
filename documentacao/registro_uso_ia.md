@@ -57,7 +57,7 @@ Entre as evidências registradas estão:
 - Comparação de três estratégias de prompting no RF02.
 - Seis testes automatizados de tratamento de respostas e falhas de API no RF04.
 - Avaliação de qualidade de dois casos no RF13, sendo um aprovado inicialmente e outro encaminhado para correção manual.
-- Execução da suíte completa com 123 testes automatizados aprovados.
+- Execução da suíte completa com 126 testes automatizados aprovados.
 
 A avaliação RF13 apresentou taxa inicial de aprovação de 50%, considerando dois casos independentes. Esse resultado é demonstrativo e não representa uma estimativa geral de qualidade do modelo.
 

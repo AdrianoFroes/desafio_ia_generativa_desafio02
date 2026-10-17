@@ -1,0 +1,11 @@
+{
+  "modelo": "gemini-3.5-transcribe",
+  "tempo_segundos": 3.97,
+  "tokens_entrada": 2261,
+  "tokens_saida": 222,
+  "tokens_total": 2483,
+  "revisao_humana": true,
+  "id_execucao": "2619ef96-74e6-439a-9391-6e40130ac428",
+  "gabarito": "dados/gabaritos/rf06_gabarito_validado.txt",
+  "revisao_humana_pendente": true
+}

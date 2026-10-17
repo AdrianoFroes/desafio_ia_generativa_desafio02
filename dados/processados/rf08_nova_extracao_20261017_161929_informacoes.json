@@ -1,0 +1,13 @@
+{
+  "modelo": "gemini-3.8-flash",
+  "arquivo_original": "entrada_pdf-imagem.pdf",
+  "tempo_segundos": 13.46,
+  "tokens_entrada": 1184,
+  "tokens_saida": 496,
+  "tokens_total": 2628,
+  "revisao_humana_pendente": true,
+  "id_execucao": "471ed6aa-b513-49fb-9cd1-2631fbc61275",
+  "gabarito_validado": "dados/gabaritos/rf08_gabarito_validado.json",
+  "sha256_documento_original": "a4b3bc0518df73244856ab27e010b561680b5f60ee8e730be4df83b3b567505f",
+  "data_hora_execucao": "2026-10-17T16:19:43-04:00"
+}

@@ -1,0 +1,18 @@
+{
+  "requisito": "RF08",
+  "documento_original": "dados/originais/entrada_pdf-imagem.pdf",
+  "origem": "conferencia_humana_visual_do_pdf_original",
+  "data_hora_registro": "2026-10-17T16:16:21-04:00",
+  "sha256_documento": "a4b3bc0518df73244856ab27e010b561680b5f60ee8e730be4df83b3b567505f",
+  "gabarito": "dados/gabaritos/rf08_gabarito_validado.json",
+  "campos_confirmados": [
+    "codigo_matricula",
+    "data_nascimento",
+    "cpf",
+    "rg",
+    "data_matricula",
+    "inicio_curso"
+  ],
+  "validado_antes_da_nova_execucao": true,
+  "observacao": "Seis campos confirmados visualmente pelo usuario antes da nova execucao do OCR. O gabarito inicial e os resultados anteriores permanecem preservados. Campos nao confirmados nao foram incluidos."
+}

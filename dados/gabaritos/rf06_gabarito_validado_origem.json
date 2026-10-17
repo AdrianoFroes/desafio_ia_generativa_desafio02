@@ -1,0 +1,13 @@
+{
+  "requisito": "RF06",
+  "origem_texto": "referencia_posterior_da_primeira_inferencia",
+  "validacao": "conferencia_humana_por_escuta_do_audio_original",
+  "confirmacao": "usuario_confirmou_correspondencia_integral",
+  "data_hora_validacao_registrada": "2026-10-17T16:05:33-04:00",
+  "audio_original": "dados/originais/entrada_audio.mp3",
+  "sha256_audio": "aa396a4bc0d990ef05b031d8771cbad2d46ebc45ec1ad1adf4d23cb3c7cd2fa6",
+  "gabarito": "dados/gabaritos/rf06_gabarito_validado.txt",
+  "independente_da_primeira_inferencia": false,
+  "validado_antes_da_nova_execucao": true,
+  "observacao": "Texto originado de transcricao revisada anterior e confirmado por escuta humana do audio original antes da nova avaliacao."
+}
