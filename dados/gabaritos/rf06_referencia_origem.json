@@ -1,0 +1,8 @@
+{
+  "origem": "copia_da_transcricao_revisada",
+  "momento": "posterior_a_inferencia",
+  "independente": false,
+  "comparacao_valida_como_gabarito_previo": false,
+  "revisao_por_escuta": "declarada_em_documentacao/revisao_rf06.md",
+  "nota": "Não representa gabarito elaborado antes do modelo. Requer validação independente do áudio original."
+}

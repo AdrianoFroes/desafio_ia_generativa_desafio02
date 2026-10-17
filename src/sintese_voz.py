@@ -1,4 +1,4 @@
-﻿import argparse
+import argparse
 import base64
 import json
 import os
@@ -35,7 +35,7 @@ def preparar_texto(texto, aprovado):
     return texto
 
 
-def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180, id_execucao=None,):
+def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180, id_execucao=None, final_rf09=False):
     caminho_minuta = Path(caminho_minuta)
 
     if id_execucao is None:
@@ -140,8 +140,8 @@ def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180, id_execucao=N
 
 
     pasta = RAIZ / "resultados" / "audios"
-    destino = pasta / "rf07_minuta_falada.wav"
-    arquivo_info = pasta / "rf07_informacoes.json"
+    destino = pasta / ("rf07_minuta_rf09_aprovada.wav" if final_rf09 else "rf07_minuta_falada.wav")
+    arquivo_info = pasta / ("rf07_minuta_rf09_informacoes.json" if final_rf09 else "rf07_informacoes.json")
 
     if destino.exists() or arquivo_info.exists():
         raise FileExistsError(
@@ -152,6 +152,8 @@ def sintetizar_minuta(caminho_minuta, aprovado=False, timeout=180, id_execucao=N
         "modelo": MODELO,
         "voz": VOZ,
         "arquivo_minuta": str(caminho_minuta),
+        "sha256_minuta_aprovada": __import__("hashlib").sha256(caminho_minuta.read_bytes()).hexdigest(),
+        "tipo_minuta": "rf09_final" if final_rf09 else "teste",
         "arquivo_audio": str(destino),
         "aprovacao_humana_declarada": aprovado,
         "id_execucao": id_execucao,
@@ -245,14 +247,15 @@ def main():
         help="Confirma que o texto foi revisado e aprovado."
     )
 
+    parser.add_argument("--final-rf09", action="store_true", help="Gera saída separada da minuta final RF09 sem sobrescrever o ensaio.")
     argumentos = parser.parse_args()
 
     identificador = str(uuid.uuid4())
     inicio = time.perf_counter()
 
     pasta = RAIZ / "resultados" / "audios"
-    arquivo_audio = pasta / "rf07_minuta_falada.wav"
-    arquivo_info = pasta / "rf07_informacoes.json"
+    arquivo_audio = pasta / ("rf07_minuta_rf09_aprovada.wav" if argumentos.final_rf09 else "rf07_minuta_falada.wav")
+    arquivo_info = pasta / ("rf07_minuta_rf09_informacoes.json" if argumentos.final_rf09 else "rf07_informacoes.json")
 
     dados_auditoria = {
         "requisito": "RF07",
@@ -262,8 +265,8 @@ def main():
         "versao_prompt": "rf07_v1",
         "parametros": {},
         "modalidade_entrada": "texto",
-        "arquivo_saida": "resultados/audios/rf07_minuta_falada.wav",
-        "arquivo_processado": "resultados/audios/rf07_informacoes.json",
+        "arquivo_saida": "resultados/audios/" + arquivo_audio.name,
+        "arquivo_processado": "resultados/audios/" + arquivo_info.name,
         "revisao_humana": "pendente",
     }
 
@@ -289,10 +292,14 @@ def main():
                 "Os arquivos do RF07 já existem e não serão sobrescritos."
             )
 
+        if argumentos.final_rf09 and caminho_relativo.as_posix() != "resultados/minutas/rf09_minuta_revisada.txt":
+            raise ValueError("--final-rf09 exige resultados/minutas/rf09_minuta_revisada.txt")
+
         resultado = sintetizar_minuta(
             caminho_minuta,
             aprovado=argumentos.aprovado,
             id_execucao=identificador,
+            final_rf09=argumentos.final_rf09,
         )
 
         dados_auditoria.update({

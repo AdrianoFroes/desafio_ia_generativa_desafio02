@@ -1,0 +1,15 @@
+﻿{
+    "envio_automatico":  false,
+    "arquivo_audio":  "resultados/audios/rf07_minuta_rf09_aprovada.wav",
+    "modelo":  "gemini-2.5-flash-preview-tts",
+    "arquivo_texto":  "resultados/minutas/rf09_minuta_revisada.txt",
+    "requisito":  "RF07",
+    "revisao_humana":  {
+                           "resultado":  "aprovado",
+                           "data_registro":  "2026-10-17T15:23:49-04:00",
+                           "observacao":  "Narracao conferida e aprovada pela revisora.",
+                           "metodo":  "escuta do audio",
+                           "realizada":  true
+                       },
+    "voz":  "Kore"
+}

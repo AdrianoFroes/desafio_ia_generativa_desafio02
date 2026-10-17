@@ -309,3 +309,19 @@ a versão aprovada precisaria passar por síntese e conferência específicas.
 **Pacote de entrega:** `.env.example` deve ser incluído; `.env` verdadeiro,
 `.venv`, caches e credenciais não devem ser incluídos. Os arquivos fictícios
 originais e os gabaritos locais são evidências necessárias para a avaliação.
+
+
+## Complemento de conformidade RF06, RF07, RF08 e RF11
+
+- `dados/gabaritos/rf06_referencia_posterior.txt` é uma **referência retrospectiva**, copiada da transcrição revisada, e **não é um gabarito independente preparado antes da inferência**. O RF06 ainda exige validação por escuta independente se esse for o critério de aceite aplicado.
+- A síntese original `rf07_minuta_falada.wav` é um ensaio. Para sintetizar a **minuta RF09 aprovada** sem sobrescrever o ensaio, conferir previamente o texto e executar:
+
+```powershell
+python -m src.sintese_voz resultados/minutas/rf09_minuta_revisada.txt --aprovado --final-rf09
+```
+
+O comando requer `GEMINI_API_KEY` configurada, acesso à API e pode consumir créditos. Produz `resultados/audios/rf07_minuta_rf09_aprovada.wav` e metadados separados. **Ouça o áudio inteiro** e confirme correspondência antes de declarar a revisão concluída; a execução deixa `revisao_audio_pendente=true`.
+
+- `python -m src.verificar_pendencias` confere a presença das evidências, o hash da minuta associada ao áudio e a existência do log central, sem chamar APIs.
+- O gabarito RF08 foi atualizado após o OCR: essa comparação não é avaliação cega independente.
+- Logs antigos que não foram coletados **não podem ser reconstruídos como se fossem registros originais**. `resultados/logs/demonstracao_offline.jsonl` registra somente a demonstração offline. Se houver `resultados/logs/auditoria.jsonl` real no PC, preservar e avaliar inclusão na entrega após conferir dados sensíveis.

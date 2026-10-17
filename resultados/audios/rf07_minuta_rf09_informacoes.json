@@ -1,0 +1,14 @@
+{
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "voz": "Kore",
+  "arquivo_minuta": "D:\\Projetos\\desafio_ia_generativa\\resultados\\minutas\\rf09_minuta_revisada.txt",
+  "sha256_minuta_aprovada": "d70cd711d2eaf26e381e6d22828202450ec99d72c183b41ba27e181bd353fde3",
+  "tipo_minuta": "rf09_final",
+  "arquivo_audio": "D:\\Projetos\\desafio_ia_generativa\\resultados\\audios\\rf07_minuta_rf09_aprovada.wav",
+  "aprovacao_humana_declarada": true,
+  "id_execucao": "1fe08640-58e4-48cc-9c3a-1a891f90236b",
+  "aviso_campos_ausentes": false,
+  "tempo_segundos": 30.14,
+  "tokens_total": 2216,
+  "revisao_audio_pendente": true
+}
