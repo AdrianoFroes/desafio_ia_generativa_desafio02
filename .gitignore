@@ -19,3 +19,7 @@ Thumbs.db
 *.tmp
 
 dados/processados/rf05_extracao.json
+
+dados/processados/rf06_transcricao.txt
+dados/processados/rf06_transcricao_revisada.txt
+dados/processados/rf06_informacoes.json
