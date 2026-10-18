@@ -2,6 +2,15 @@
 
 Projeto desenvolvido no **Módulo 01 — IA Generativa**, do curso FIC Dev IA.
 
+## Integrantes da Equipe
+
+-   **Adriano Froes da Costa** - \[GitHub:AdrianoFroes\]
+-   **Líbia Canhete Alves e Cruz** - \[GitHub: libia-alves\]
+-   **Yasmine Lino Franco** - \[GitHub: Yasmine-Lino\]
+
+------------------------------------------------------------------------
+
+
 ## 1. Sobre o projeto
 
 Este repositório contém uma **Central Inteligente de Atendimento e Comunicação Institucional**, desenvolvida para simular atividades de uma secretaria pública.
@@ -214,7 +223,7 @@ O comando é o mesmo para Windows, Linux e macOS.
 Na última execução realizada durante o desenvolvimento, o projeto apresentou:
 
 ```text
-Ran 123 tests
+Ran 126 tests
 
 OK
 ```
