@@ -264,6 +264,19 @@ A **taxa de aprovação inicial foi de 50%**.
 
 A minuta do RF09 foi corrigida e aprovada posteriormente por revisão humana. Essa correção não foi contabilizada como um novo caso.
 
+### Modelos e custos
+
+| Atividade | Modelo ou ferramenta |
+|---|---|
+| Comparação de prompts (RF02), extração (RF05), OCR (RF08) e minuta (RF09) | Gemini 3.8 Flash (`gemini-3.8-flash`, definido em `config.json`) |
+| Transcrição de áudio (RF06) | Gemini 3.5 Transcribe |
+| Síntese de voz (RF07) | Gemini 2.5 Flash Preview TTS |
+| Geração e revisão de imagem (RF10) | Ferramenta de imagens do ChatGPT |
+
+A imagem foi gerada pela interface do ChatGPT porque a tentativa com o Gemini 2.5 Flash Image retornou HTTP 429 (sem cota gratuita disponível).
+
+**Custos:** as execuções usaram a cota gratuita da API Gemini. O projeto registra tempo e tokens de cada chamada quando o provedor informa. Exemplos: minuta RF09 com 836 tokens em 3,38 s e OCR RF08 com 2.273 tokens em 60,79 s. Não foi possível consolidar um custo financeiro confiável, pois os preços por modelo e modalidade não foram configurados nem confirmados. O custo real depende do volume de solicitações, da modalidade e das condições comerciais do provedor. Antes de uma implantação, seria necessário definir limites de consumo e monitoramento financeiro. Detalhes em `documentacao/relatorio_tecnico_final.md` (seções 3 e 10).
+
 ## 8. Limitações e cuidados
 
 Este projeto é um **protótipo educacional**, não um sistema de produção de uma secretaria pública.
