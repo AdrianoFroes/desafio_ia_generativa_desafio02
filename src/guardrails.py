@@ -90,6 +90,7 @@ PADROES_SEGREDO = [
     r"\bsenha\s+(do|da|de)\b",
     r"\btoken\b",
     r"\bcredencial\b",
+    r"\bOPENAI_API_KEY\b",
     r"\bGEMINI_API_KEY\b",
     r"\bGROQ_API_KEY\b",
     r"\bHF_TOKEN\b",
@@ -100,6 +101,8 @@ PADROES_SEGREDO = [
 
 # Dados que nunca devem sair na resposta
 PADROES_DADOS_INDEVIDOS_SAIDA = [
+    r"OPENAI_API_KEY\s*=\s*\S+",
+    r"sk-[A-Za-z0-9_\-]{20,}",
     r"GEMINI_API_KEY\s*=\s*\S+",
     r"GROQ_API_KEY\s*=\s*\S+",
     r"HF_TOKEN\s*=\s*\S+",
