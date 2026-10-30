@@ -11,7 +11,22 @@ MENSAGENS = [
 ]
 
 
+CONFIG_GEMINI = {
+    "provedor": "gemini",
+    "modelo": "gemini-3.8-flash",
+    "max_tokens": 1024
+}
+
+
 class TestesRF04(unittest.TestCase):
+
+    def setUp(self):
+        patcher = patch(
+            "src.llm_client.carregar_configuracao",
+            return_value=CONFIG_GEMINI
+        )
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def test_chave_ausente(self):
         with patch.dict(os.environ, {"GEMINI_API_KEY": ""}):
