@@ -88,6 +88,15 @@ Solicitacao:
 # ---------------------------------------------------------------------------
 
 
+def limpar_json_llm(resposta: str) -> str:
+    """Remove a cerca ```json ... ``` que LLMs reais costumam incluir."""
+    resposta = resposta.strip()
+    if resposta.startswith("```"):
+        resposta = re.sub(r"^```(?:json)?\s*", "", resposta)
+        resposta = re.sub(r"\s*```$", "", resposta)
+    return resposta
+
+
 def resumir(texto: str, llm: LLMProtocol, max_palavras: int = MAX_PALAVRAS_RESUMO) -> str:
     """Gera resumo com limite de palavras. Trunca se o LLM exceder."""
     prompt = PROMPT_RESUMO.format(max_palavras=max_palavras, texto=texto)
@@ -114,7 +123,7 @@ def extrair_entidades(texto: str, llm: LLMProtocol) -> tuple[list[Entidade], lis
     Nunca inventa: se o LLM alucinar, o avaliador detecta.
     """
     prompt = PROMPT_ENTIDADES.format(texto=texto)
-    resposta = llm.completar(prompt).strip()
+    resposta = limpar_json_llm(llm.completar(prompt))
     try:
         dados = json.loads(resposta)
     except json.JSONDecodeError:

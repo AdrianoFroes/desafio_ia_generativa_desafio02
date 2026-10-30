@@ -15,6 +15,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Protocol
 
+from src.nlp import limpar_json_llm
+
 POLARIDADES = {"positiva", "negativa", "neutra", "indeterminada"}
 
 
@@ -45,7 +47,7 @@ Avaliacao:
 def classificar_sentimento(texto: str, llm: LLMProtocol) -> tuple[str, str]:
     """Retorna (polaridade, justificativa). Forca indeterminada fora do enum."""
     prompt = PROMPT_SENTIMENTO.format(texto=texto)
-    resposta = llm.completar(prompt).strip()
+    resposta = limpar_json_llm(llm.completar(prompt))
     try:
         dados = json.loads(resposta)
         pol = str(dados.get("polaridade", "indeterminada")).lower()
