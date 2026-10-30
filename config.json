@@ -3,8 +3,12 @@
     "ambiente":  "desenvolvimento",
     "revisao_humana_obrigatoria":  true,
     "envio_automatico":  false,
-    "provedor":  "gemini",
-    "modelo":  "gemini-3.8-flash",
+    "provedor":  "openai",
+    "modelo":  "gpt-4o-mini",
+    "modelos":  {
+                    "openai":  "gpt-4o-mini",
+                    "gemini":  "gemini-3.8-flash"
+                },
     "temperatura":  0.3,
     "max_tokens":  1024,
     "caminhos":  {

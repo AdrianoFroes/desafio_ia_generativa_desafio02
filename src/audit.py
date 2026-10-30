@@ -380,6 +380,7 @@ def consultar_revisao_humana(id_execucao, caminho=None):
 import re
 
 PADROES_SEGREDO = [
+    (re.compile(r"(OPENAI_API_KEY\s*=\s*)\S+", re.IGNORECASE), r"\1***"),
     (re.compile(r"(GEMINI_API_KEY\s*=\s*)\S+", re.IGNORECASE), r"\1***"),
     (re.compile(r"(GROQ_API_KEY\s*=\s*)\S+", re.IGNORECASE), r"\1***"),
     (re.compile(r"(HF_TOKEN\s*=\s*)\S+", re.IGNORECASE), r"\1***"),
@@ -428,6 +429,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 PADROES_SEGREDO = [
+    (re.compile(r"(OPENAI_API_KEY\s*=\s*)\S+", re.IGNORECASE), r"\1***"),
     (re.compile(r"(GEMINI_API_KEY\s*=\s*)\S+", re.IGNORECASE), r"\1***"),
     (re.compile(r"(GROQ_API_KEY\s*=\s*)\S+", re.IGNORECASE), r"\1***"),
     (re.compile(r"(HF_TOKEN\s*=\s*)\S+", re.IGNORECASE), r"\1***"),

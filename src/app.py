@@ -15,8 +15,12 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+import os
+
 import streamlit as st
+from dotenv import load_dotenv
 from src.ingestion import indexar_acervo, DIR_ACERVO
+from src.llm_client import criar_llm
 from src.rag import responder, StatusResposta
 from src.nlp import gerar_ficha
 from src.embeddings import IndiceVetorial
@@ -43,6 +47,17 @@ class LLMMock:
         return "SEM_EVIDENCIA"
 
 
+load_dotenv(ROOT / ".env")
+USA_OPENAI = bool(os.getenv("OPENAI_API_KEY"))
+
+
+def obter_llm():
+    """Usa a OpenAI quando ha chave no .env; caso contrario, o LLM simulado."""
+    if USA_OPENAI:
+        return criar_llm("openai")
+    return LLMMock()
+
+
 with st.sidebar:
     st.header("1. Base de Conhecimento")
     if st.button("Indexar Acervo"):
@@ -62,7 +77,10 @@ with st.sidebar:
 
     st.markdown("---")
     st.header("2. Modo de Operacao")
-    st.write("LLM simulado para testes offline. Integracao com Gemini/Groq prevista no RF21.")
+    if USA_OPENAI:
+        st.success("LLM real: OpenAI (chave OPENAI_API_KEY encontrada no .env).")
+    else:
+        st.write("LLM simulado para testes offline. Defina OPENAI_API_KEY no .env para usar a OpenAI.")
 
 
 st.title("Central Inteligente de Atendimento")
@@ -81,7 +99,7 @@ with tab1:
             st.error("Indexe o acervo primeiro (menu lateral).")
         else:
             with st.spinner("Processando..."):
-                llm = LLMMock()
+                llm = obter_llm()
                 try:
                     ficha = gerar_ficha(texto, llm)
                 except Exception as e:
